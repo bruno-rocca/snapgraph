@@ -8,12 +8,7 @@ var scraper = require('./routes.js');
 var db = require('./db.js');
 
 app.get('/', function(req, res) {
-    
-    db.getNetwork('binroot', 3, function(out) {
-	res.send('output is ' + out);
-    });
-
-    res.send('index');
+  res.send("Index");
 });
 
 /*
