@@ -37,12 +37,16 @@ var addUser = function(userObject, fun) {
 };
 
 
-var networkData = "";
+var netDat = [];
 
 var getNetwork = function(user, depth, fun) {
+    
+    netDat.push("{");
+
     console.log("getNetwork: "+user+", "+depth);
     if(depth == 0) {
-	fun(networkData);
+
+	fun(netDat.join(""));
     }
     else {
 	Db.connect(process.env.MONGOLAB_URI || 'mongodb://localhost:27017/test', function(err, db) {
@@ -67,7 +71,6 @@ var getNetwork = function(user, depth, fun) {
 					    continue;
 					}
 					else {
-					    networkData += arOut[0].friends[i].name+" ";
 					    getNetwork(arOut[0].friends[i].name, depth-1, fun);
 					}
 				    }
@@ -82,6 +85,8 @@ var getNetwork = function(user, depth, fun) {
             }
 	});
     }
+
+    netDat.push("}");
 };
 
 exports.getNetwork = getNetwork;
