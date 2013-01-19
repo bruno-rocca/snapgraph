@@ -98,7 +98,7 @@ var leaderboard = function(fun){
 			};
 
             console.log("We are connected!");
-            db.collection('users').find({}, {_id:false, name: true, score:true}, options).toArray(function(err, users) {
+            db.collection('users').find({}, {_id:true, score:true}, options).toArray(function(err, users) {
                 if (err) return console.dir(err);
                 else{
 					fun(users);
