@@ -40,7 +40,7 @@ app.post('/adduser', function(req, res) {
 /** GETUSER
 * Client: u = "octopi"
 * Server: scrapes http://snapchat.com/octopi using nodeio
-*         returns username, highscore, friends and associated scores
+*         returns username, highscore, children and associated scores
 */
 app.get('/getuser', function(req, res) {
   var name = req.query.u;

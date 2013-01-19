@@ -89,7 +89,7 @@ exports.refreshGraph = function(user, res, maxDepth, curDepth){
         console.log("Current user: " + JSON.stringify(out));
 
         if(curDepth < maxDepth){
-            for(var j = 0; j < out.friends.length; j++){
+            for(var j = 0; j < out.children.length; j++){
                 exports.refreshGraph(out.children[j].name, res, maxDepth, curDepth + 1);
             }
         }
