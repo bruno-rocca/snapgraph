@@ -1,7 +1,11 @@
 var express = require('express');
-<<<<<<< HEAD
+
 var nodeio = require('node.io');
 var qs = require('querystring');
+var app = express.createServer(express.logger());
+
+
+var scraper = require('./routes.js');
 var app = express.createServer(express.logger());
 
 var db = require('./db');
@@ -9,9 +13,7 @@ var db = require('./db');
 app.get('/', function(req, res) {
   db.myFunc1();
   res.send('index');
-=======
-var scraper = require('./routes.js');
-var app = express.createServer(express.logger());
+});
 
 app.get('/getuser', function(req, res) {
   var name = req.query.u;
@@ -24,7 +26,6 @@ app.get('/getuser', function(req, res) {
 	var result = scraper.getUser(name);
 	res.send(result);
   }
->>>>>>> b90ae74c0312914f79cd9cba9cbd21683c4c6691
 });
 
 // API endpoints
