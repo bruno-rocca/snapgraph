@@ -3,7 +3,10 @@ var nodeio = require('node.io');
 var qs = require('querystring');
 var app = express.createServer(express.logger());
 
+var db = require('./db');
+
 app.get('/', function(req, res) {
+  db.myFunc1();
   res.send('index');
 });
 
