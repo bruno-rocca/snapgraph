@@ -7,43 +7,44 @@
 
   	<title>d3test</title>
 	<link rel="stylesheet" href="../css/bootstrap.css" />
+	<link rel="stylesheet" href="../fortawesome/css/font-awesome.min.css" />
 	<link href="../css/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" />
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600' rel='stylesheet' type='text/css'>
 	<link href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
 	<link href='http://fonts.googleapis.com/css?family=Grand+Hotel' rel='stylesheet' type='text/css'>
 	<script src="http://d3js.org/d3.v3.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 	<script type="text/javascript" src="../js/graph.js"></script>
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
 </head>
 <body>
+
+	<div id="top">
+		<h1>snapgraph</h1>
+		<input type="text" id="search" />
+		<div class="icon-search" style="position:relative;right:35px;top:-3px;"></div>
+		<i class="icon-globe icon-2x" id="globe"></i>
+	</div>
 	<div id="main">
-		<div id="top">
-			<h1>snapgraph</h1>
-			<input type="text" id="search" />
-		</div>
 		<div id="chart"></div>
-		<div id="leaderboard">
-			<table>
-				<thead>
-					<tr>
-						<td>Name</td>
-						<td>HISCORE</td>
-					</tr>
-				</thead>
-				<tbody>
-					<% for(var i = 0; i < 10; i++) { %>
-					<tr class="<% if (i % 2 === 0) { %> zebra1 <% } else { %> zebra2 <% } %>"> 
-						<td>jasdevsingh</td>
-						<td>2300</td>
-					</tr>
-					<% } %>
-				</tbody>
-			</table>
-		</div>
 	</div>
 	<div id="bottom"></div>
 	<img src="../img/graphs.png" id="graphbg" />
+
+	<script>
+	$(document).ready(function() {
+		$('#search').keypress(function(e) {
+			if(e.which === 13) {
+				console.log('yo');
+				$('#top').animate({
+					marginTop: '2%'
+				}, 400, function() { console.log('done'); });
+				e.preventDefault();
+			}
+		});
+	});
+	</script>
 </body>
 </html>
