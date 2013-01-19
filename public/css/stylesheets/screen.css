@@ -1,0 +1,100 @@
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+/* line 8, ../sass/screen.scss */
+body {
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
+  /*background: url('../../img/satinweave.png');*/
+  /*/*@include radial-gradient(ellipse farthest-corner at center top, #FFFFFF 0%, #EFE3E7 100%);*/
+  /*@include background(radial-gradient(color-stops(#fefefe, #EFEAC2), center top));*/
+  /*background-image: -webkit-radial-gradient(center top, ellipse farthest-corner, #FFFFFF 0%, #EFE3E7 100%);*/
+  background: -webkit-linear-gradient(#edf0f4 40%, white 90%);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  height: 100%;
+  color: #444;
+}
+
+/* line 21, ../sass/screen.scss */
+h1 {
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
+  font-weight: 600;
+  font-size: 82px;
+  margin: 40px 0;
+  text-shadow: 1px 2px 2px #aaaaaa;
+}
+
+/* line 29, ../sass/screen.scss */
+#main {
+  width: 960px;
+  height: 600px;
+  margin: 0 auto;
+}
+
+/* line 35, ../sass/screen.scss */
+.rounded, #chart, #leaderboard {
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
+  border-radius: 8px;
+  -webkit-box-shadow: #aaaaaa -1px -1px 7px inset;
+  -moz-box-shadow: #aaaaaa -1px -1px 7px inset;
+  box-shadow: #aaaaaa -1px -1px 7px inset;
+}
+
+/* line 40, ../sass/screen.scss */
+#chart {
+  background: #fafafa;
+  width: 650px;
+  height: 500px;
+  margin: 0 10px 0 0px;
+  float: left;
+}
+
+/* line 49, ../sass/screen.scss */
+#leaderboard {
+  -webkit-box-shadow: #aaaaaa 1px 2px 7px;
+  -moz-box-shadow: #aaaaaa 1px 2px 7px;
+  box-shadow: #aaaaaa 1px 2px 7px;
+  background: #aaa;
+  float: right;
+  width: 270px;
+  height: 500px;
+  margin: 0 20px 0 10px;
+}
+/* line 57, ../sass/screen.scss */
+#leaderboard table {
+  -moz-border-radius-topleft: 8px;
+  -webkit-border-top-left-radius: 8px;
+  border-top-left-radius: 8px;
+  -moz-border-radius-topright: 8px;
+  -webkit-border-top-right-radius: 8px;
+  border-top-right-radius: 8px;
+  width: 100%;
+}
+/* line 61, ../sass/screen.scss */
+#leaderboard table thead {
+  font-weight: bold;
+}
+/* line 64, ../sass/screen.scss */
+#leaderboard table tr td {
+  padding: 5px 10px;
+}
+/* line 67, ../sass/screen.scss */
+#leaderboard table .zebra1 {
+  background: #EFE3E7;
+}
+/* line 70, ../sass/screen.scss */
+#leaderboard table .zebra2 {
+  background: #fff;
+}
+
+/* line 76, ../sass/screen.scss */
+#graphbg {
+  position: fixed;
+  bottom: -270px;
+  right: 0;
+  z-index: -1;
+}

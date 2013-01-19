@@ -1,0 +1,82 @@
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+
+@import "compass/css3";
+
+body {
+	font-family: "Open Sans", Helvetica, Arial, sans-serif;
+	/*background: url('../../img/satinweave.png');*/
+	/*/*@include radial-gradient(ellipse farthest-corner at center top, #FFFFFF 0%, #EFE3E7 100%);*/
+	/*@include background(radial-gradient(color-stops(#fefefe, #EFEAC2), center top));*/
+	/*background-image: -webkit-radial-gradient(center top, ellipse farthest-corner, #FFFFFF 0%, #EFE3E7 100%);*/
+	background: -webkit-linear-gradient(#edf0f4 40%, #fff 90%);
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	height: 100%;
+	color:#444;
+}
+
+h1 {
+	font-family:"Open Sans", Helvetica, Arial, sans-serif;
+	font-weight: 600;
+	font-size: 82px;
+	margin:40px 0;
+	@include text-shadow(1px 2px 2px #aaa);
+}
+
+#main {
+	width: 960px;
+	height: 600px;
+	margin:0 auto;
+}
+
+.rounded {
+	@include border-radius(8px);
+	@include box-shadow(#aaa -1px -1px 7px inset);
+}
+
+#chart {
+	@extend .rounded;
+	background: #fafafa;
+	width:650px;
+	height:500px;
+	margin:0 10px 0 0px;
+	float:left;
+}
+
+#leaderboard {
+	@extend .rounded;
+	@include box-shadow(#aaa 1px 2px 7px);
+	background:#aaa;
+	float:right;
+	width:270px;
+	height:500px;
+	margin: 0 20px 0 10px;
+	table {
+		@include border-top-left-radius(8px);
+		@include border-top-right-radius(8px);
+		width:100%;
+		thead {
+			font-weight:bold;
+		}
+		tr td {
+			padding:5px 10px;
+		}
+		.zebra1 {
+			background: #EFE3E7;
+		}
+		.zebra2 {
+			background:#fff;
+		}
+	}
+}
+
+#graphbg {
+	position:fixed;
+	bottom:-270px;
+	right:0;
+	z-index:-1;
+}
+
