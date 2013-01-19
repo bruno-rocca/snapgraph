@@ -54,6 +54,12 @@ app.get('/getuser', function(req, res) {
   }
 });
 
+
+app.get('/graph', function(req, res) {
+  var name = req.query.u;
+  db.refreshGraph(name, res);
+});
+
 /** REFRESHGRAPH
 *   Client: u = "octopi"
 *   Server: Updates the DB by doing a raw scrape of all connected users' pages, returns status of operation

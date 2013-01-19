@@ -184,3 +184,8 @@ line.link {
   stroke: #9ecae1;
   stroke-width: 1.5px;
 }
+
+/* line 143, ../sass/screen.scss */
+.node {
+  background-image: url("https://developer.mozilla.org/files/719/SVG-flower.png");
+}

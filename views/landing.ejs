@@ -34,6 +34,7 @@
 	<img src="../img/graphs.png" id="graphbg" />
 
 	<script>
+
 	$(document).ready(function() {
 		// tooltip always follows mouse
 		$('body').mousemove(function(e) {
@@ -75,55 +76,73 @@
 					});
 
 					function update() {
-					  var nodes = flatten(root),
-					      links = d3.layout.tree().links(nodes);
+						var nodes = flatten(root),
+						  links = d3.layout.tree().links(nodes);
 
-					  // Restart the force layout.
-					  force
-					      .nodes(nodes)
-					      .links(links)
-					      .charge(-500)
-					      .start();
+						// Restart the force layout.
+						force
+						  .nodes(nodes)
+						  .links(links)
+						  .charge(-500)
+						  .start();
 
-					  // Update the links…
-					  link = vis.selectAll("line.link")
-					      .data(links, function(d) { return d.target.id; });
+						// Update the links…
+						link = vis.selectAll("line.link")
+						  .data(links, function(d) { return d.target.id; });
 
-					  // Enter any new links.
-					  link.enter().insert("line", ".node")
-					      .attr("class", "link")
-					      .attr("x1", function(d) { return d.source.x; })
-					      .attr("y1", function(d) { return d.source.y; })
-					      .attr("x2", function(d) { return d.target.x; })
-					      .attr("y2", function(d) { return d.target.y; });
+						// Enter any new links.
+						link.enter().insert("line", ".node")
+						  .attr("class", "link")
+						  .attr("x1", function(d) { return d.source.x; })
+						  .attr("y1", function(d) { return d.source.y; })
+						  .attr("x2", function(d) { return d.target.x; })
+						  .attr("y2", function(d) { return d.target.y; });
 
-					  // Exit any old links.
-					  link.exit().remove();
+						// Exit any old links.
+						link.exit().remove();
 
-					  // Update the nodes…
-					  node = vis.selectAll("circle.node")
-					      .data(nodes, function(d) { return d.id; })
-					      .style("fill", color);
+						// Update the nodes…
+						node = vis.selectAll("circle.node")
+						  .data(nodes, function(d) { return d.id; })
+						  .style("fill", color);
 
-					  node.transition()
-					      .attr("r", function(d) { return d.friends ? 4.5 : d.size; });
+						node.transition()
+						  .attr("r", function(d) { return d.friends ? 4.5 : d.size; });
 
-					  // Enter any new nodes.
-					  node.enter().append("svg:image")
-					      .attr("xlink:href", "../img/snapchat.jpg")
-					      .attr("width", 50)
-					      .attr("height", 50)
-					      .attr("class", "node")
-					      .attr("x", function(d) { return d.x; })
-					      .attr("y", function(d) { return d.y; })
-					      .style("fill", color)
-					      .on("mouseover", mouseover)
-					      .on("mouseout", mouseout)
-					      .call(fetchTwitterImg)
-					      .call(force.drag);
+						// Enter any new nodes.
+						node.enter().append("svg:image")
+						  .attr("xlink:href", "../img/snapchat.jpg")
+						  .attr("width", 50)
+						  .attr("height", 50)
+						  .attr("class", "node")
+						  .attr("x", function(d) { return d.x; })
+						  .attr("y", function(d) { return d.y; })
+						  .style("fill", color)
+						  .on("mouseover", mouseover)
+						  .on("mouseout", mouseout)
+						  .call(fetchTwitterImg)
+						  .call(force.drag);
 
-					  // Exit any old nodes.
-					  node.exit().remove();
+						// Exit any old nodes.
+						node.exit().remove();
+
+
+						function fetchTwitterImg(selection) {
+						  	var users = selection[0];
+						  	for(var i = 0; i < users.length; i++) {
+						  		// if always runs, that means we got an image back so we the node's image 
+					  			var username = users[i].__data__.name || users[i].__data__['_id'];
+					  			$.ajax({
+				  			        url:'https://api.twitter.com/1/users/profile_image?screen_name='+username+'&size=bigger',
+				  			        crossDomain: true,
+				  			        dataType: 'jsonp'
+				  			    }).always(function(eye, usrnm) { 
+				  			    	return function(a, b) {
+					  			        users[eye].href.baseVal = 'https://api.twitter.com/1/users/profile_image?screen_name='+usrnm+'&size=bigger';
+					  			    }
+					  			}(i, username));
+							}
+						}
 					}
 
 					function tick() {
@@ -170,16 +189,6 @@
 					// hide tooltip
 					function mouseout(d) {
 						$('#tooltip').hide(0);
-					}
-
-					// checks if a twitter profile exists here
-					function fetchTwitterImg(selection) {
-						var users = selection[0];
-						for(var i = 0; i < users.length; i++) {
-							var username = users[i].__data__.name || users[i].__data__['_id'];
-							console.log("fetching twitter for ", username);
-							users[i].href.baseVal = 'https://api.twitter.com/1/users/profile_image?screen_name='+username+'&size=bigger'
-						}
 					}
 
 					// Returns a list of all nodes under the root.

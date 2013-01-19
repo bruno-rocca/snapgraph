@@ -1,5 +1,6 @@
 var Db = require('mongodb').Db;
 var env = process.env.NODE_ENV || 'development';
+var async = require('async');
 
 var getUser = function(user, fun) {
     Db.connect(process.env.MONGOLAB_URI || 'mongodb://localhost:27017/test', function(err, db) {
@@ -36,17 +37,17 @@ var addUser = function(userObject, fun) {
     });
 };
 
-
-var netDat = [];
-
+// returns a JSON of a user's network
 var getNetwork = function(user, depth, fun) {
-    
-    netDat.push("{");
+    var netDat = {};
 
     console.log("getNetwork: "+user+", "+depth);
-    if(depth == 0) {
 
-	fun(netDat.join(""));
+    if(depth == 0) { // base case
+	netDat.name = user;
+	netDat.size = 1;
+	console.log("in base case, returning "+JSON.stringify(netDat));
+	return netDat;
     }
     else {
 	Db.connect(process.env.MONGOLAB_URI || 'mongodb://localhost:27017/test', function(err, db) {
@@ -66,13 +67,28 @@ var getNetwork = function(user, depth, fun) {
 			    }
 			    else {
 				if(arOut[0].friends) {
+				    netDat.name = user;
+				    var kids = [];
+				    
 				    for(var i=0; i<arOut[0].friends.length; i++) {
 					if(arOut[0].friends[i].name === undefined) {
 					    continue;
 					}
 					else {
-					    getNetwork(arOut[0].friends[i].name, depth-1, fun);
+					    var child = getNetwork(arOut[0].friends[i].name, depth-1, fun);
+					    kids.push(child);
 					}
+				    }
+
+				    netDat.friends = kids;
+
+				    console.log('depth = '+ depth);
+				    if(depth == 2) {
+					console.log('netDat: '+JSON.stringify(netDat));
+					fun(netDat);
+				    }
+				    else {
+					return netDat;
 				    }
 				}
 			    }
@@ -84,10 +100,94 @@ var getNetwork = function(user, depth, fun) {
 		console.log("Error, not connected: " + err);
             }
 	});
-    }
-
-    netDat.push("}");
+    }    
 };
+
+var refreshGraph = function(user, res) {
+    //Refreshes graph to DB given a username until it can't recurse any farther
+
+    var dat = {};
+    dat.name = user;
+
+    Db.connect(process.env.MONGOLAB_URI || 'mongodb://localhost:27017/test', function(err, db) {
+        if(!err) {
+	    console.log("We are connected!");
+	    db.collection('users').findOne({_id: user}, function(err, out) {
+		if (err) return console.dir(err);
+		if (!out) return;
+
+
+		console.log('user ' + JSON.stringify(out.friends));
+
+		switch(out.friends.length) {
+		    
+		case 0: 
+		    dat.children = [];
+		    res.send(dat);
+		    break;
+
+		case 1: 
+		    db.collection('users').findOne({_id: out.friends[0].name}, function(err, out0) {
+			var f = [];
+			f.push({name: out0._id, score: out0.score});
+			dat.children = f;
+			
+			res.send(JSON.stringify(dat));
+			
+		    });
+		    break;
+
+		case 2: 
+                    db.collection('users').findOne({_id: out.friends[0].name}, function(err, out0) {
+		        db.collection('users').findOne({_id: out.friends[1].name}, function(err, out1) {
+			        var f = [];
+			    
+				f.push({name: out0._id, score: out0.score});
+				f.push({name: out1._id, score: out1.score});
+
+				dat.children = f;
+			    
+				res.send(JSON.stringify(dat));
+			});
+		    });		
+
+		    break;
+
+		case 3: 
+                    db.collection('users').findOne({_id: out.friends[0].name}, function(err, out0) {
+		        db.collection('users').findOne({_id: out.friends[1].name}, function(err, out1) {
+			    db.collection('users').findOne({_id: out.friends[2].name}, function(err, out2) {
+			        var f = [];
+			    
+				f.push({name: out0._id, score: out0.score});
+				f.push({name: out1._id, score: out1.score});
+				f.push({name: out2._id, score: out2.score});
+
+				dat.children = f;
+			    
+				res.send(JSON.stringify(dat));
+			    });
+			});
+		    });		
+		    break;
+		}
+
+		
+
+
+
+
+	    });
+	}
+        else {
+	    console.log("Error, not connected: " + err);
+        }
+    });
+};
+
+
+
+
 
 var leaderboard = function(fun){
     Db.connect(process.env.MONGOLAB_URI || 'mongodb://localhost:27017/test', function(err, db) {
@@ -110,6 +210,8 @@ var leaderboard = function(fun){
     });
 };
 
+
+exports.refreshGraph = refreshGraph;
 exports.leaderboard = leaderboard;
 exports.getNetwork = getNetwork;
 exports.getUser = getUser;
