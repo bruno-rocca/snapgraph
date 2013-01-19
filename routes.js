@@ -53,7 +53,7 @@ exports.getUser = function(name, res, fun){
 
                     obj._id = user;
                     obj.score = score;
-                    obj.friends = pairs;
+                    obj.children = pairs;
 
                     db.addUser(obj, function(){
                             if(res){
@@ -80,7 +80,7 @@ exports.refreshGraph = function(user, res, maxDepth, curDepth){
 
         if(curDepth < maxDepth){
             for(var j = 0; j < out.friends.length; j++){
-                exports.refreshGraph(out.friends[j].name, res, maxDepth, curDepth + 1);
+                exports.refreshGraph(out.children[j].name, res, maxDepth, curDepth + 1);
             }
         }
     });
