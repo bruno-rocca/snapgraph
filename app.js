@@ -9,10 +9,9 @@ var db = require('./db.js');
 
 app.get('/', function(req, res) {
 
-    db.addUser({_id:'binroot', score:0}, function() {
-	res.send('index');
+    db.getNetwork('binroot', 3, function(out) {
+	res.send(out);
     });
-
 
 });
 
