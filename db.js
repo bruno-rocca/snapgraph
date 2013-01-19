@@ -155,7 +155,33 @@ var refreshGraph = function(user, res, seen) {
 };
 
 
+
+
+
+var leaderboard = function(fun){
+    Db.connect(process.env.MONGOLAB_URI || 'mongodb://localhost:27017/test', function(err, db) {
+        if(!err) {
+			var options = {
+				"limit": 10
+			};
+
+            console.log("We are connected!");
+            db.collection('users').find({}, {_id:true, score:true}, options).toArray(function(err, users) {
+                if (err) return console.dir(err);
+                else{
+					fun(users.sort(function(a, b){return b.score-a.score;}));
+                }
+            });
+        }
+        else {
+            console.log("Error, not connected: " + err);
+        }
+    });
+};
+
+
 exports.refreshGraph = refreshGraph;
+exports.leaderboard = leaderboard;
 exports.getNetwork = getNetwork;
 exports.getUser = getUser;
 exports.addUser = addUser;
