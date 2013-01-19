@@ -13,7 +13,7 @@ app.get('/', function(req, res) {
 	res.send('output is ' + out);
     });
 
-    res.send('index');      
+    res.send('index');
 });
 
 /*

@@ -1,4 +1,5 @@
 var nodeio = require('node.io');
+var db = require('./db.js');
 
 exports.getUser = function(name, res){
     var run = new nodeio.Job({
@@ -48,13 +49,15 @@ exports.getUser = function(name, res){
                         }
                     }
                     
-                    var result = {};
+                    var obj = {};
 
-                    result.name = user;
-                    result.score = score;
-                    result.friends = pairs;
+                    obj.name = user;
+                    obj.score = score;
+                    obj.friends = pairs;
 
-                    res.send(result);
+                    db.addUser(obj, function(r) {
+                        res.send(obj);
+                    });
                 }
             );
         }

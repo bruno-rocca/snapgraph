@@ -27,7 +27,7 @@ var addUser = function(userObject, fun) {
             console.log("We are connected!");
             db.collection('users').insert(userObject, {w:1}, function(err, result) {
                 if (err) return console.dir(err);
-		fun;
+		fun();
             });
         }
         else {
