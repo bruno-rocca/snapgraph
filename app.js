@@ -3,18 +3,20 @@ var express = require('express');
 var nodeio = require('node.io');
 var qs = require('querystring');
 var app = express.createServer(express.logger());
-
-
 var scraper = require('./routes.js');
-var app = express.createServer(express.logger());
 
-var db = require('./db');
+var db = require('./db.js');
 
 app.get('/', function(req, res) {
-  db.myFunc1();
-  res.send('index');
+    res.send('index');      
 });
 
+/*
+  db.getUser('binroot', function(out) {
+      console.log(JSON.stringify(out));
+      res.send('output is '+JSON.stringify(out));
+  });
+*/
 app.get('/getuser', function(req, res) {
   var name = req.query.u;
   
