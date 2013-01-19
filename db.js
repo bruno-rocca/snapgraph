@@ -7,13 +7,13 @@ var getUser = function(user, fun) {
         if(!err) {
             console.log("We are connected!");
             
-            db.collection('users').find({_id:user},function(err, result) {
-		if (err) return console.dir(err);
-                else result.toArray( function(err, arOut) {
-                    console.log("output: " + JSON.stringify(arOut));
-		    fun(arOut);
-                } );
-            });
+            db.collection('users').findOne({_id:user},function(err, result) {
+			if (err)
+				return console.dir(err);
+            else{
+            	fun(result);
+            }
+          });
         }
         else {
             console.log("Error, not connected: " + err);

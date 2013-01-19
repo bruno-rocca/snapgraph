@@ -69,7 +69,17 @@ exports.getUser = function(name, res, fun){
         }
     });
 
-    nodeio.start(runner, {timeout: 100});
+db.getUser(name, function(user){
+    if(user){
+        console.log("Using db hit");
+        res.send(user);
+    }
+    else{
+        console.log("Using scrape hit");
+        nodeio.start(runner, {timeout: 100});
+    }
+});
+
 };
 
 exports.refreshGraph = function(user, res, maxDepth, curDepth){
