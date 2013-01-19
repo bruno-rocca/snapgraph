@@ -6,7 +6,6 @@ var app = express.createServer(express.logger());
 
 
 var scraper = require('./routes.js');
-var app = express.createServer(express.logger());
 
 var db = require('./db');
 
