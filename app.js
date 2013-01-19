@@ -72,12 +72,8 @@ app.get('/refreshgraph', function(req, res){
   else{
     console.log("Making a /refreshgraph request for user: " + name);
 
-    scraper.clearSeen(function(s){
-      return function(){
-      //Start depth off at 0
-      s.refreshGraph(name, res, depth, 0, []);
-    };
-    }(scraper));
+    //Start depth off at 0
+    scraper.refreshGraph(name, res, depth, 0);
   }
 });
 

@@ -72,49 +72,18 @@ exports.getUser = function(name, res, fun){
     nodeio.start(runner, {timeout: 100});
 };
 
-var seen = [];
-
-exports.clearSeen = function(fun){
-    seen = [];
-    fun();
-};
-
-exports.refreshGraph = function(user, res, maxDepth, curDepth, queue){
-    
-    if(queue.length == 0){
-        queue.push(user);
-
-        var process = queue.shift();
-
-        var curUser = exports.getUser(user, res, function(out){
-
-
-    }
-
-    //Refreshes graph to DB given a username until it can't recurse any farther
+exports.refreshGraph = function(user, res, maxDepth, curDepth){
+    console.log("Current depth is " + curDepth);
     var curUser = exports.getUser(user, res, function(out){
         
-        console.log("Current seen is " + seen + ", with user " + out.name);
+        console.log("Current user: " + JSON.stringify(out));
 
-        if(seen.indexOf(out.name) > -1){
-            return;
-        }
-        else{
-            seen.push(out.name);
-            
-            var queue = out.friends;
-
-            while(curDepth <= maxDepth && queue.length > 0){
-                console.log("Current queue is " + queue);
-
-                var toProcess = queue.shift();
-
-                console.log("Proccessing " + toProcess.name);
-
-                exports.refreshGraph(toProcess.name, res, maxDepth, curDepth + 1);
+        if(curDepth < maxDepth){
+            for(var j = 0; j < out.friends.length; j++){
+                exports.refreshGraph(out.friends[j].name, res, maxDepth, curDepth + 1);
             }
-
-            res.send("Done");
         }
     });
+
+    res.send({"status":"Update in progress"});
 };
