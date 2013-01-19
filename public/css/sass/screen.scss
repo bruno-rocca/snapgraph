@@ -7,29 +7,32 @@
 
 body {
 	font-family: "Open Sans", Helvetica, Arial, sans-serif;
-	/*background: url('../../img/satinweave.png');*/
+	background: url('../../img/satinweave.png');
 	/*/*@include radial-gradient(ellipse farthest-corner at center top, #FFFFFF 0%, #EFE3E7 100%);*/
 	/*@include background(radial-gradient(color-stops(#fefefe, #EFEAC2), center top));*/
 	/*background-image: -webkit-radial-gradient(center top, ellipse farthest-corner, #FFFFFF 0%, #EFE3E7 100%);*/
-	background: -webkit-linear-gradient(#edf0f4 40%, #fff 90%);
-	background-repeat: no-repeat;
-	background-attachment: fixed;
+	/*background: -webkit-linear-gradient(#edf0f4 40%, #fff 90%);*/
+	/*background-repeat: no-repeat;*/
+	/*background-attachment: fixed;*/
 	height: 100%;
 	color:#444;
 }
 
 h1 {
-	font-family:"Open Sans", Helvetica, Arial, sans-serif;
+	font-family:"Ubuntu", Helvetica, Arial, sans-serif;
 	font-weight: 600;
-	font-size: 82px;
-	margin:40px 0;
+	font-size: 132px;
+	position: fixed;
+	top: 2px;
+	right: -28px;
 	@include text-shadow(1px 2px 2px #aaa);
 }
 
 #main {
 	width: 960px;
 	height: 600px;
-	margin:0 auto;
+	margin:0px auto;
+	margin-top:130px;
 }
 
 .rounded {
