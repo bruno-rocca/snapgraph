@@ -55,14 +55,22 @@ var getNetwork = function(user, depth, fun) {
 			
 			console.log("output: " + JSON.stringify(arOut));
 			// loop through all friends
-			if(arOut[0].friends) {
-			    for(var i=0; i<arOut[0].friends.length; i++) {
-				if(arOut[0].friends[i].name === undefined) {
-				    continue;
-				}
-				else {
-				    networkData += arOut[0].friends[i].name+" ";
-				    getNetwork(arOut[0].friends[i].name, depth-1, fun);
+			if(arOut != null)
+			{
+			    if(arOut[0] === undefined) {
+				console.log('arOut is undefined');
+			    }
+			    else {
+				if(arOut[0].friends) {
+				    for(var i=0; i<arOut[0].friends.length; i++) {
+					if(arOut[0].friends[i].name === undefined) {
+					    continue;
+					}
+					else {
+					    networkData += arOut[0].friends[i].name+" ";
+					    getNetwork(arOut[0].friends[i].name, depth-1, fun);
+					}
+				    }
 				}
 			    }
 			}
