@@ -61,14 +61,23 @@ app.get('/getuser', function(req, res) {
 */
 app.get('/refreshgraph', function(req, res){
   var name = req.query.u;
+  var depth = req.query.depth || 4;
   
   if (typeof name === "undefined"){
     res.send({"error":"No username given"});
   }
+  else if(depth > 10 || depth <= 0){
+   res.send({"error":"Depth out of range"});
+  }
   else{
     console.log("Making a /refreshgraph request for user: " + name);
-    //May need to pass res through to send status
-    scraper.refreshGraph(name, res);
+
+    scraper.clearSeen(function(s){
+      return function(){
+      //Start depth off at 0
+      s.refreshGraph(name, res, depth, 0, []);
+    };
+    }(scraper));
   }
 });
 

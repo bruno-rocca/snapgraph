@@ -45,7 +45,7 @@ exports.getUser = function(name, res, fun){
                         }
                         catch(innerError){
                             //Really no friends
-                            console.log(innerError);
+                            console.log("No friends have been found.");
                         }
                     }
                     
@@ -54,8 +54,6 @@ exports.getUser = function(name, res, fun){
                     obj._id = user;
                     obj.score = score;
                     obj.friends = pairs;
-
-		    console.log("in routes, obj is: "+JSON.stringify(obj));
 
                     db.addUser(obj, function(){
                             if(res){
@@ -76,27 +74,44 @@ exports.getUser = function(name, res, fun){
 
 var seen = [];
 
-exports.refreshGraph = function(user, res){
+exports.clearSeen = function(fun){
+    seen = [];
+    fun();
+};
+
+exports.refreshGraph = function(user, res, maxDepth, curDepth, queue){
+    
+    if(queue.length == 0){
+        queue.push(user);
+
+        var process = queue.shift();
+
+        var curUser = exports.getUser(user, res, function(out){
+
+
+    }
+
     //Refreshes graph to DB given a username until it can't recurse any farther
     var curUser = exports.getUser(user, res, function(out){
         
-        console.log(seen);
+        console.log("Current seen is " + seen + ", with user " + out.name);
 
         if(seen.indexOf(out.name) > -1){
             return;
         }
         else{
             seen.push(out.name);
-            for(var i = 0; i < out.friends.length; i++){
+            
+            var queue = out.friends;
 
-                console.log(out.friends[i].name);
+            while(curDepth <= maxDepth && queue.length > 0){
+                console.log("Current queue is " + queue);
 
-                if(seen.indexOf(out.friends[i].name) > -1){
-                    continue;
-                }
-                else{
-                    exports.refreshGraph(out.friends[i].name, res);
-                }
+                var toProcess = queue.shift();
+
+                console.log("Proccessing " + toProcess.name);
+
+                exports.refreshGraph(toProcess.name, res, maxDepth, curDepth + 1);
             }
 
             res.send("Done");
