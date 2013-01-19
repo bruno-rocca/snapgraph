@@ -1,4 +1,5 @@
 var express = require('express');
+var nodeio = require('node.io');
 var app = express.createServer(express.logger());
 
 app.get('/', function(req, res) {
