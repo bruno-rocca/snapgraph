@@ -28,6 +28,7 @@
 		<i class="icon-globe icon-2x" id="globe"></i>
 	</div>
 	<div id="main">
+		<div id="tooltip" style="position:absolute;">octopi</div>
 		<div id="chart"></div>
 	</div>
 	<div id="bottom"></div>
@@ -35,6 +36,11 @@
 
 	<script>
 	$(document).ready(function() {
+		// tooltip always follows mouse
+		$('body').mousemove(function(e) {
+			$('#tooltip').css({'top': e.clientY + 20, 'left': e.clientX});
+		});
+
 		$('#search').keypress(function(e) {
 			if(e.which === 13) {
 				console.log('yo');
@@ -60,7 +66,7 @@
 					    .attr("width", w)
 					    .attr("height", h);
 
-					d3.json("sample.json", function(json) {
+					d3.json("getuser?u=" + $('#search').val(), function(json) {
 					  root = json;
 					  root.fixed = true;
 					  root.x = w / 2;
@@ -99,7 +105,7 @@
 					      .style("fill", color);
 
 					  node.transition()
-					      .attr("r", function(d) { return d.children ? 4.5 : d.size; });
+					      .attr("r", function(d) { return d.friends ? 4.5 : d.size; });
 
 					  // Enter any new nodes.
 					  node.enter().append("svg:image")
@@ -110,11 +116,8 @@
 					      .attr("x", function(d) { return d.x; })
 					      .attr("y", function(d) { return d.y; })
 					      .style("fill", color)
-					      .on("click", click)
+					      .on("mouseover", mouseover)
 					      .call(force.drag);
-
-					  node.append("title")
-					      .text(function(d) { return d.name; });
 
 					  // Exit any old nodes.
 					  node.exit().remove();
@@ -132,20 +135,30 @@
 
 					// Color leaf nodes orange, and packages white or blue.
 					function color(d) {
-					//  return d._children ? "#3182bd" : d.children ?  : "#fd8d3c";
-					  return d._children ? "#3182bd" : d.children ? "#c6dbef" : colorscale(d.size);
+					//  return d._children ? "#3182bd" : d.friends ?  : "#fd8d3c";
+					  return d._children ? "#3182bd" : d.friends ? "#c6dbef" : colorscale(d.size);
 					}
 
-					// Toggle children on click.
+					// Toggle friends on click.
 					function click(d) {
-					  if (d.children) {
-					    d._children = d.children;
-					    d.children = null;
+					  if (d.friends) {
+					    d._children = d.friends;
+					    d.friends = null;
 					  } else {
-					    d.children = d._children;
+					    d.friends = d._children;
 					    d._children = null;
 					  }
 					  update();
+					}
+
+					function mouseover(d) {
+						console.log(d3.select(d));
+						var svg = d3.select(d)[0][0];
+						if(!svg.name) {
+							$('#tooltip').html(svg._id);
+						} else {
+							$('#tooltip').html(svg.name);	
+						}
 					}
 
 					// Returns a list of all nodes under the root.
@@ -153,7 +166,7 @@
 					  var nodes = [], i = 0;
 
 					  function recurse(node) {
-					    if (node.children) node.size = node.children.reduce(function(p, v) { return p + recurse(v); }, 0);
+					    if (node.friends) node.size = node.friends.reduce(function(p, v) { return p + recurse(v); }, 0);
 					    if (!node.id) node.id = ++i;
 					    nodes.push(node);
 					    return node.size;
