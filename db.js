@@ -7,13 +7,13 @@ var getUser = function(user, fun) {
         if(!err) {
             console.log("We are connected!");
             
-            db.collection('users').find({_id:user},function(err, result) {
-		if (err) return console.dir(err);
-                else result.toArray( function(err, arOut) {
-                    console.log("output: " + JSON.stringify(arOut));
-		    fun(arOut);
-                } );
-            });
+            db.collection('users').findOne({_id:user},function(err, result) {
+			if (err)
+				return console.dir(err);
+            else{
+            	fun(result);
+            }
+          });
         }
         else {
             console.log("Error, not connected: " + err);
@@ -26,6 +26,10 @@ var addUser = function(userObject, fun) {
     Db.connect(process.env.MONGOLAB_URI || 'mongodb://localhost:27017/test', function(err, db) {
         if(!err) {
             console.log("We are connected!");
+	    userObject.t = new Date();
+
+	    console.log('adding to db: ' + JSON.stringify(userObject));
+
             db.collection('users').update({_id: userObject.name}, userObject, {upsert:true}, function(err) {
                 if (err) return console.dir(err);
 		fun();
@@ -59,28 +63,28 @@ var getNetwork = function(user, depth, fun) {
                     else result.toArray( function(err, arOut) {
 			
 			console.log("output: " + JSON.stringify(arOut));
-			// loop through all friends
+			// loop through all children
 			if(arOut != null)
 			{
 			    if(arOut[0] === undefined) {
 				console.log('arOut is undefined');
 			    }
 			    else {
-				if(arOut[0].friends) {
+				if(arOut[0].children) {
 				    netDat.name = user;
 				    var kids = [];
 				    
-				    for(var i=0; i<arOut[0].friends.length; i++) {
-					if(arOut[0].friends[i].name === undefined) {
+				    for(var i=0; i<arOut[0].children.length; i++) {
+					if(arOut[0].children[i].name === undefined) {
 					    continue;
 					}
 					else {
-					    var child = getNetwork(arOut[0].friends[i].name, depth-1, fun);
+					    var child = getNetwork(arOut[0].children[i].name, depth-1, fun);
 					    kids.push(child);
 					}
 				    }
 
-				    netDat.friends = kids;
+				    netDat.children = kids;
 
 				    console.log('depth = '+ depth);
 				    if(depth == 2) {
@@ -117,9 +121,9 @@ var refreshGraph = function(user, res) {
 		if (!out) return;
 
 
-		console.log('user ' + JSON.stringify(out.friends));
+		console.log('user ' + JSON.stringify(out.children));
 
-		switch(out.friends.length) {
+		switch(out.children.length) {
 		    
 		case 0: 
 		    dat.children = [];
@@ -127,7 +131,7 @@ var refreshGraph = function(user, res) {
 		    break;
 
 		case 1: 
-		    db.collection('users').findOne({_id: out.friends[0].name}, function(err, out0) {
+		    db.collection('users').findOne({_id: out.children[0].name}, function(err, out0) {
 			var f = [];
 			f.push({name: out0._id, score: out0.score});
 			dat.children = f;
@@ -138,8 +142,8 @@ var refreshGraph = function(user, res) {
 		    break;
 
 		case 2: 
-                    db.collection('users').findOne({_id: out.friends[0].name}, function(err, out0) {
-		        db.collection('users').findOne({_id: out.friends[1].name}, function(err, out1) {
+                    db.collection('users').findOne({_id: out.children[0].name}, function(err, out0) {
+		        db.collection('users').findOne({_id: out.children[1].name}, function(err, out1) {
 			        var f = [];
 			    
 				f.push({name: out0._id, score: out0.score});
@@ -154,9 +158,9 @@ var refreshGraph = function(user, res) {
 		    break;
 
 		case 3: 
-                    db.collection('users').findOne({_id: out.friends[0].name}, function(err, out0) {
-		        db.collection('users').findOne({_id: out.friends[1].name}, function(err, out1) {
-			    db.collection('users').findOne({_id: out.friends[2].name}, function(err, out2) {
+                    db.collection('users').findOne({_id: out.children[0].name}, function(err, out0) {
+		        db.collection('users').findOne({_id: out.children[1].name}, function(err, out1) {
+			    db.collection('users').findOne({_id: out.children[2].name}, function(err, out2) {
 			        var f = [];
 			    
 				f.push({name: out0._id, score: out0.score});

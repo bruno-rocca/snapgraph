@@ -53,7 +53,7 @@ exports.getUser = function(name, res, fun){
 
                     obj._id = user;
                     obj.score = score;
-                    obj.friends = pairs;
+                    obj.children = pairs;
 
                     db.addUser(obj, function(){
                             if(res){
@@ -69,7 +69,22 @@ exports.getUser = function(name, res, fun){
         }
     });
 
-    nodeio.start(runner, {timeout: 100});
+    if(fun){
+        nodeio.start(runner, {timeout: 100});   
+    }
+    else{
+       db.getUser(name, function(user){
+           if(user){
+               console.log("Using db hit");
+               res.send(user);
+           }
+           else{
+               console.log("Using scrape hit");
+               nodeio.start(runner, {timeout: 100});
+           }
+       }); 
+}
+
 };
 
 exports.refreshGraph = function(user, res, maxDepth, curDepth){
@@ -79,8 +94,8 @@ exports.refreshGraph = function(user, res, maxDepth, curDepth){
         console.log("Current user: " + JSON.stringify(out));
 
         if(curDepth < maxDepth){
-            for(var j = 0; j < out.friends.length; j++){
-                exports.refreshGraph(out.friends[j].name, res, maxDepth, curDepth + 1);
+            for(var j = 0; j < out.children.length; j++){
+                exports.refreshGraph(out.children[j].name, res, maxDepth, curDepth + 1);
             }
         }
     });
