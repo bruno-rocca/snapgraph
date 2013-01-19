@@ -49,16 +49,33 @@ app.get('/getuser', function(req, res) {
     res.send({"error":"No username given"});
   }
   else{
-    console.log("Making a request for user: " + name);
+    console.log("Making a /getUser request for user: " + name);
     scraper.getUser(name, res);
   }
 });
 
+
 app.get('/graph', function(req, res) {
   var name = req.query.u;
-  db.getNetwork(name, 2, function(out) {
-    res.send('output is ' + JSON.stringify(out));
-  });
+  db.refreshGraph(name, res, []);
+});
+
+/** REFRESHGRAPH
+*   Client: u = "octopi"
+*   Server: Updates the DB by doing a raw scrape of all connected users' pages, returns status of operation
+*
+*/
+app.get('/refreshgraph', function(req, res){
+  var name = req.query.u;
+  
+  if (typeof name === "undefined"){
+    res.send({"error":"No username given"});
+  }
+  else{
+    console.log("Making a /refreshgraph request for user: " + name);
+    //May need to pass res through to send status
+    scraper.refreshGraph(name, res);
+  }
 });
 
 var port = process.env.PORT || 5000;

@@ -1,8 +1,8 @@
 var nodeio = require('node.io');
 var db = require('./db.js');
 
-exports.getUser = function(name, res){
-    var run = new nodeio.Job({
+exports.getUser = function(name, res, fun){
+    var runner = new nodeio.Job({
         input: false,
         run: function () {
             this.getHtml('http://www.snapchat.com/' + name, function(err, $) {
@@ -58,12 +58,48 @@ exports.getUser = function(name, res){
 		    console.log("in routes, obj is: "+JSON.stringify(obj));
 
                     db.addUser(obj, function(){
-                        res.send(obj);
-                    });
+                            if(res){
+                                res.send(obj);
+                            }
+                            if(fun){
+                                fun(obj);
+                            }
+                        }
+                    );
                 }
             );
         }
     });
 
-    nodeio.start(run, {timeout: 10});
+    nodeio.start(runner, {timeout: 100});
+};
+
+var seen = [];
+
+exports.refreshGraph = function(user, res){
+    //Refreshes graph to DB given a username until it can't recurse any farther
+    var curUser = exports.getUser(user, res, function(out){
+        
+        console.log(seen);
+
+        if(seen.indexOf(out.name) > -1){
+            return;
+        }
+        else{
+            seen.push(out.name);
+            for(var i = 0; i < out.friends.length; i++){
+
+                console.log(out.friends[i].name);
+
+                if(seen.indexOf(out.friends[i].name) > -1){
+                    continue;
+                }
+                else{
+                    exports.refreshGraph(out.friends[i].name, res);
+                }
+            }
+
+            res.send("Done");
+        }
+    });
 };

@@ -1,5 +1,6 @@
 var Db = require('mongodb').Db;
 var env = process.env.NODE_ENV || 'development';
+var async = require('async');
 
 var getUser = function(user, fun) {
     Db.connect(process.env.MONGOLAB_URI || 'mongodb://localhost:27017/test', function(err, db) {
@@ -68,6 +69,7 @@ var getNetwork = function(user, depth, fun) {
 				if(arOut[0].friends) {
 				    netDat.name = user;
 				    var kids = [];
+				    
 				    for(var i=0; i<arOut[0].friends.length; i++) {
 					if(arOut[0].friends[i].name === undefined) {
 					    continue;
@@ -98,12 +100,62 @@ var getNetwork = function(user, depth, fun) {
 		console.log("Error, not connected: " + err);
             }
 	});
-    }
-
-
-    
+    }    
 };
 
+var refreshGraph = function(user, res, seen) {
+    //Refreshes graph to DB given a username until it can't recurse any farther
+
+    var netDat = {};
+    netDat.name = user;
+
+    Db.connect(process.env.MONGOLAB_URI || 'mongodb://localhost:27017/test', function(err, db) {
+        if(!err) {
+	    console.log("We are connected!");
+
+	    db.collection('users').findOne({_id: user}, function(err, out) {
+		if (err) return console.dir(err);
+
+		if (!out) return;
+
+		console.log("the output: " + JSON.stringify(out));
+// ----------------------------
+
+		if(seen.indexOf(out._id) > -1){
+		    return;
+		}
+		else{
+		    seen.push(out._id);
+
+		    var kids = [];
+
+		    for(var i = 0; i < out.friends.length; i++){
+
+			console.log(out.friends[i].name);
+
+			if(seen.indexOf(out.friends[i].name) > -1){
+			    continue;
+			}
+			else{
+			    exports.refreshGraph(out.friends[i].name, res, seen);
+			}
+		    }
+
+		    res.send("Done");
+		}
+
+
+// ----------------------------
+	    });
+	}
+        else {
+	    console.log("Error, not connected: " + err);
+        }
+    });
+};
+
+
+exports.refreshGraph = refreshGraph;
 exports.getNetwork = getNetwork;
 exports.getUser = getUser;
 exports.addUser = addUser;
