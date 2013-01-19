@@ -89,6 +89,29 @@ var getNetwork = function(user, depth, fun) {
     netDat.push("}");
 };
 
+var leaderboard = function(fun){
+    Db.connect(process.env.MONGOLAB_URI || 'mongodb://localhost:27017/test', function(err, db) {
+        if(!err) {
+			var options = {
+				"sort": [['score', 'desc']],
+				"limit": 10
+			};
+
+            console.log("We are connected!");
+            db.collection('users').find({}, {_id:false, name: true, score:true}, options).toArray(function(err, users) {
+                if (err) return console.dir(err);
+                else{
+					fun(users);
+                }
+            });
+        }
+        else {
+            console.log("Error, not connected: " + err);
+        }
+    });
+};
+
+exports.leaderboard = leaderboard;
 exports.getNetwork = getNetwork;
 exports.getUser = getUser;
 exports.addUser = addUser;
