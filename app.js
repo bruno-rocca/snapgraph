@@ -49,8 +49,31 @@ app.get('/getuser', function(req, res) {
     res.send({"error":"No username given"});
   }
   else{
-    console.log("Making a request for user: " + name);
+    console.log("Making a /getUser request for user: " + name);
     scraper.getUser(name, res);
+  }
+});
+
+/** REFRESHGRAPH
+*   Client: u = "octopi"
+*   Server: Updates the DB by doing a raw scrape of all connected users' pages, returns status of operation
+*
+*/
+app.get('/refreshgraph', function(req, res){
+  var name = req.query.u;
+  var depth = req.query.depth || 4;
+  
+  if (typeof name === "undefined"){
+    res.send({"error":"No username given"});
+  }
+  else if(depth > 10 || depth <= 0){
+   res.send({"error":"Depth out of range"});
+  }
+  else{
+    console.log("Making a /refreshgraph request for user: " + name);
+
+    //Start depth off at 0
+    scraper.refreshGraph(name, res, depth, 0);
   }
 });
 

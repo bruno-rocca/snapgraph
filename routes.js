@@ -1,8 +1,8 @@
 var nodeio = require('node.io');
 var db = require('./db.js');
 
-exports.getUser = function(name, res){
-    var run = new nodeio.Job({
+exports.getUser = function(name, res, fun){
+    var runner = new nodeio.Job({
         input: false,
         run: function () {
             this.getHtml('http://www.snapchat.com/' + name, function(err, $) {
@@ -45,7 +45,7 @@ exports.getUser = function(name, res){
                         }
                         catch(innerError){
                             //Really no friends
-                            console.log(innerError);
+                            console.log("No friends have been found.");
                         }
                     }
                     
@@ -55,15 +55,35 @@ exports.getUser = function(name, res){
                     obj.score = score;
                     obj.friends = pairs;
 
-		    console.log("in routes, obj is: "+JSON.stringify(obj));
-
                     db.addUser(obj, function(){
-                        res.send(obj);
-                    });
+                            if(res){
+                                res.send(obj);
+                            }
+                            if(fun){
+                                fun(obj);
+                            }
+                        }
+                    );
                 }
             );
         }
     });
 
-    nodeio.start(run, {timeout: 10});
+    nodeio.start(runner, {timeout: 100});
+};
+
+exports.refreshGraph = function(user, res, maxDepth, curDepth){
+    console.log("Current depth is " + curDepth);
+    var curUser = exports.getUser(user, res, function(out){
+        
+        console.log("Current user: " + JSON.stringify(out));
+
+        if(curDepth < maxDepth){
+            for(var j = 0; j < out.friends.length; j++){
+                exports.refreshGraph(out.friends[j].name, res, maxDepth, curDepth + 1);
+            }
+        }
+    });
+
+    res.send({"status":"Update in progress"});
 };
