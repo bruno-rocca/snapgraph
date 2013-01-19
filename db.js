@@ -26,6 +26,7 @@ var addUser = function(userObject, fun) {
     Db.connect(process.env.MONGOLAB_URI || 'mongodb://localhost:27017/test', function(err, db) {
         if(!err) {
             console.log("We are connected!");
+	    userObject.t = new Date();
             db.collection('users').update({_id: userObject.name}, userObject, {upsert:true}, function(err) {
                 if (err) return console.dir(err);
 		fun();
