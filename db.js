@@ -93,7 +93,6 @@ var leaderboard = function(fun){
     Db.connect(process.env.MONGOLAB_URI || 'mongodb://localhost:27017/test', function(err, db) {
         if(!err) {
 			var options = {
-				"sort": [['score', 'desc']],
 				"limit": 10
 			};
 
@@ -101,7 +100,7 @@ var leaderboard = function(fun){
             db.collection('users').find({}, {_id:true, score:true}, options).toArray(function(err, users) {
                 if (err) return console.dir(err);
                 else{
-					fun(users);
+					fun(users.sort(function(a, b){return b.score-a.score;}));
                 }
             });
         }
