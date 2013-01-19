@@ -36,7 +36,16 @@ exports.getUser = function(name, res){
                         }
                     }
                     catch(error){
-                        console.log("No friends lol");
+                        try{
+                            //1 friend case, refactor (submit pull request to nodeio, this is pretty bad)
+                            names.push($('div.best_name a').text);
+                            scores.push($('div.best_score').text);
+                            pairs.push({name: names[0], score: scores[0]});
+                        }
+                        catch(innerError){
+                            //Really no friends
+                            console.log(innerError);
+                        }
                     }
                     
                     var result = {};
