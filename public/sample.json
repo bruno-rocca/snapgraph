@@ -1,12 +1,12 @@
 {
     "name": "gjcgmana",
-    "children": [
+    "friends": [
         {
             "name": "aczvwcpz",
-            "children": [
+            "friends": [
                 {
                     "name": "dmjftxwg",
-                    "children": [
+                    "friends": [
                         {
                             "name": "ffmamnar",
                             "size": 1
@@ -39,7 +39,7 @@
                 },
                 {
                     "name": "gvyuntew",
-                    "children": [
+                    "friends": [
                         {
                             "name": "attfgyyh",
                             "size": 1
@@ -76,7 +76,7 @@
                 },
                 {
                     "name": "hdbhpfjm",
-                    "children": [
+                    "friends": [
                         {
                             "name": "antebgba",
                             "size": 5
@@ -117,7 +117,7 @@
                 },
                 {
                     "name": "jhfkdsvc",
-                    "children": [
+                    "friends": [
                         {
                             "name": null,
                             "size": 1
@@ -126,7 +126,7 @@
                 },
                 {
                     "name": "kxwcpbev",
-                    "children": [
+                    "friends": [
                         {
                             "name": "bpzhbufx",
                             "size": 8
@@ -159,7 +159,7 @@
                 },
                 {
                     "name": "pnuhujqs",
-                    "children": [
+                    "friends": [
                         {
                             "name": "gadrappa",
                             "size": 5
@@ -192,7 +192,7 @@
                 },
                 {
                     "name": "suzvatun",
-                    "children": [
+                    "friends": [
                         {
                             "name": "bpzhbufx",
                             "size": 8
@@ -217,7 +217,7 @@
                 },
                 {
                     "name": "udsybbac",
-                    "children": [
+                    "friends": [
                         {
                             "name": "bsrvashe",
                             "size": 4
@@ -230,7 +230,7 @@
                 },
                 {
                     "name": "ypwyqjxn",
-                    "children": [
+                    "friends": [
                         {
                             "name": "nrejxcmk",
                             "size": 2
@@ -241,10 +241,10 @@
         },
         {
             "name": "attfgyyh",
-            "children": [
+            "friends": [
                 {
                     "name": null,
-                    "children": [
+                    "friends": [
                         {
                             "name": null,
                             "size": 1
@@ -255,10 +255,10 @@
         },
         {
             "name": "azunhdtc",
-            "children": [
+            "friends": [
                 {
                     "name": "dnsfgbqb",
-                    "children": [
+                    "friends": [
                         {
                             "name": "akkwgpau",
                             "size": 2
@@ -287,7 +287,7 @@
                 },
                 {
                     "name": "qrfertxf",
-                    "children": [
+                    "friends": [
                         {
                             "name": null,
                             "size": 1
@@ -298,10 +298,10 @@
         },
         {
             "name": "zcvhzmve",
-            "children": [
+            "friends": [
                 {
                     "name": "kpkbgmxf",
-                    "children": [
+                    "friends": [
                         {
                             "name": "mgjbqfev",
                             "size": 4
@@ -314,7 +314,7 @@
                 },
                 {
                     "name": "rezpxfrm",
-                    "children": [
+                    "friends": [
                         {
                             "name": "gkqpdqvr",
                             "size": 9
@@ -327,7 +327,7 @@
                 },
                 {
                     "name": "rgphfyfe",
-                    "children": [
+                    "friends": [
                         {
                             "name": "hkafxkcd",
                             "size": 2
@@ -340,7 +340,7 @@
                 },
                 {
                     "name": "tsvugjsp",
-                    "children": [
+                    "friends": [
                         {
                             "name": "kkvmdrjs",
                             "size": 8
@@ -365,7 +365,7 @@
                 },
                 {
                     "name": "yxtgbkpf",
-                    "children": [
+                    "friends": [
                         {
                             "name": "axrhxxcx",
                             "size": 9

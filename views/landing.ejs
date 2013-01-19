@@ -20,7 +20,6 @@
 	<![endif]-->
 </head>
 <body>
-
 	<div id="top">
 		<h1>snapgraph</h1>
 		<input type="text" id="search" />
@@ -28,6 +27,7 @@
 		<i class="icon-globe icon-2x" id="globe"></i>
 	</div>
 	<div id="main">
+		<div id="tooltip" style="position:absolute;">octopi</div>
 		<div id="chart"></div>
 	</div>
 	<div id="bottom"></div>
@@ -35,6 +35,11 @@
 
 	<script>
 	$(document).ready(function() {
+		// tooltip always follows mouse
+		$('body').mousemove(function(e) {
+			$('#tooltip').css({'top': e.clientY + 20, 'left': e.clientX});
+		});
+
 		$('#search').keypress(function(e) {
 			if(e.which === 13) {
 				console.log('yo');
@@ -53,14 +58,15 @@
 					var force = d3.layout.force()
 					    .on("tick", tick)
 					    .charge(function(d) { return d._children ? -d.size : -30; })
-					    .linkDistance(function(d) { return d.target._children ? 80 : 30; })
+					    //.linkDistance(function(d) { return d.target._children ? 80 : 30; })
+					    .linkDistance(400)
 					    .size([w, h]);
 
 					var vis = d3.select("#chart").append("svg")
 					    .attr("width", w)
 					    .attr("height", h);
 
-					d3.json("sample.json", function(json) {
+					d3.json("getuser?u=" + $('#search').val(), function(json) {
 					  root = json;
 					  root.fixed = true;
 					  root.x = w / 2;
@@ -76,6 +82,7 @@
 					  force
 					      .nodes(nodes)
 					      .links(links)
+					      .charge(-500)
 					      .start();
 
 					  // Update the links…
@@ -99,28 +106,28 @@
 					      .style("fill", color);
 
 					  node.transition()
-					      .attr("r", function(d) { return d.children ? 4.5 : d.size; });
+					      .attr("r", function(d) { return d.friends ? 4.5 : d.size; });
 
 					  // Enter any new nodes.
 					  node.enter().append("svg:image")
-					      .attr("xlink:href", "https://si0.twimg.com/profile_images/2725831401/e98e6c21340c5986961b016742a03312_bigger.png")
+					      .attr("xlink:href", "../img/snapchat.jpg")
 					      .attr("width", 50)
 					      .attr("height", 50)
 					      .attr("class", "node")
 					      .attr("x", function(d) { return d.x; })
 					      .attr("y", function(d) { return d.y; })
 					      .style("fill", color)
-					      .on("click", click)
+					      .on("mouseover", mouseover)
+					      .on("mouseout", mouseout)
+					      .call(fetchTwitterImg)
 					      .call(force.drag);
-
-					  node.append("title")
-					      .text(function(d) { return d.name; });
 
 					  // Exit any old nodes.
 					  node.exit().remove();
 					}
 
 					function tick() {
+						console.log('ticking');
 					  link.attr("x1", function(d) { return d.source.x; })
 					      .attr("y1", function(d) { return d.source.y; })
 					      .attr("x2", function(d) { return d.target.x; })
@@ -132,20 +139,47 @@
 
 					// Color leaf nodes orange, and packages white or blue.
 					function color(d) {
-					//  return d._children ? "#3182bd" : d.children ?  : "#fd8d3c";
-					  return d._children ? "#3182bd" : d.children ? "#c6dbef" : colorscale(d.size);
+					//  return d._children ? "#3182bd" : d.friends ?  : "#fd8d3c";
+					  return d._children ? "#3182bd" : d.friends ? "#c6dbef" : colorscale(d.size);
 					}
 
-					// Toggle children on click.
+					// Toggle friends on click.
 					function click(d) {
-					  if (d.children) {
-					    d._children = d.children;
-					    d.children = null;
+					  if (d.friends) {
+					    d._children = d.friends;
+					    d.friends = null;
 					  } else {
-					    d.children = d._children;
+					    d.friends = d._children;
 					    d._children = null;
 					  }
 					  update();
+					}
+
+					// show tooltip
+					function mouseover(d) {
+						console.log(d3.select(d));
+						var svg = d3.select(d)[0][0];
+						if(!svg.name) {
+							$('#tooltip').html(svg._id);
+						} else {
+							$('#tooltip').html(svg.name);	
+						}
+						$('#tooltip').show(0);
+					}
+
+					// hide tooltip
+					function mouseout(d) {
+						$('#tooltip').hide(0);
+					}
+
+					// checks if a twitter profile exists here
+					function fetchTwitterImg(selection) {
+						var users = selection[0];
+						for(var i = 0; i < users.length; i++) {
+							var username = users[i].__data__.name || users[i].__data__['_id'];
+							console.log("fetching twitter for ", username);
+							users[i].href.baseVal = 'https://api.twitter.com/1/users/profile_image?screen_name='+username+'&size=bigger'
+						}
 					}
 
 					// Returns a list of all nodes under the root.
@@ -153,13 +187,14 @@
 					  var nodes = [], i = 0;
 
 					  function recurse(node) {
-					    if (node.children) node.size = node.children.reduce(function(p, v) { return p + recurse(v); }, 0);
+					    if (node.friends) node.size = node.friends.reduce(function(p, v) { return p + recurse(v); }, 0);
 					    if (!node.id) node.id = ++i;
 					    nodes.push(node);
 					    return node.size;
 					  }
 
 					  root.size = recurse(root);
+					  console.log('returning nodes:', nodes);
 					  return nodes;
 					}
 				});
