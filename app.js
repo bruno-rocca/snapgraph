@@ -9,7 +9,7 @@ var db = require('./db.js');
 
 app.get('/', function(req, res) {
 
-    db.getNetwork('binroot', 3, function(out) {
+    db.getNetwork('binroot', 2, function(out) {
 	res.send(out);
     });
 
