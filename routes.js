@@ -51,9 +51,11 @@ exports.getUser = function(name, res){
                     
                     var obj = {};
 
-                    obj.name = user;
+                    obj._id = user;
                     obj.score = score;
                     obj.friends = pairs;
+
+		    console.log("in routes, obj is: "+JSON.stringify(obj));
 
                     db.addUser(obj, function(){
                         res.send(obj);
