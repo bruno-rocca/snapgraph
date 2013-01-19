@@ -15,19 +15,6 @@ app.get('/', function(req, res) {
   res.send('index');
 });
 
-app.get('/getuser', function(req, res) {
-  var name = req.query.u;
-  
-  if (typeof name === "undefined"){
-	res.send({"error":"No username given"});
-  }
-  else{
-	console.log("Making a request for user: " + name);
-	var result = scraper.getUser(name);
-	res.send(result);
-  }
-});
-
 // API endpoints
 
 /** ADDUSER
@@ -50,6 +37,22 @@ app.post('/adduser', function(req, res) {
     });
 });
 
+/** GETUSER
+* Client: u = "octopi"
+* Server: scrapes http://snapchat.com/octopi using nodeio
+*         returns username, highscore, friends and associated scores
+*/
+app.get('/getuser', function(req, res) {
+  var name = req.query.u;
+  
+  if (typeof name === "undefined"){
+    res.send({"error":"No username given"});
+  }
+  else{
+    console.log("Making a request for user: " + name);
+    scraper.getUser(name, res);
+  }
+});
 
 var port = process.env.PORT || 5000;
 app.listen(port, function() {
