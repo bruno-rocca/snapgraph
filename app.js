@@ -3,6 +3,10 @@ var express = require('express');
 var nodeio = require('node.io');
 var qs = require('querystring');
 var app = express.createServer(express.logger());
+
+app.use(express.static(__dirname + '/public'));
+
+
 var scraper = require('./routes.js');
 
 var db = require('./db.js');
@@ -17,6 +21,10 @@ app.get('/', function(req, res) {
       res.send('output is '+JSON.stringify(out));
   });
 */
+app.get('/landing', function(request, response) {
+	response.render('landing.ejs', {layout: false});
+});
+
 app.get('/getuser', function(req, res) {
   var name = req.query.u;
   

@@ -1,0 +1,168 @@
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+/* line 8, ../sass/screen.scss */
+body {
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
+  /*background: url('../../img/satinweave.png');*/
+  /*background: #efefef;*/
+  /*/*@include radial-gradient(ellipse farthest-corner at center top, #FFFFFF 0%, #EFE3E7 100%);*/
+  background: -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 100, color-stop(0%, #fefefe), color-stop(100%, #dfdfdf));
+  background: -webkit-radial-gradient(center top, #fefefe, #dfdfdf);
+  background: -moz-radial-gradient(center top, #fefefe, #dfdfdf);
+  background: -o-radial-gradient(center top, #fefefe, #dfdfdf);
+  background: radial-gradient(center top, #fefefe, #dfdfdf);
+  /*background-image: -webkit-radial-gradient(center top, ellipse farthest-corner, #FFFFFF 0%, #EFE3E7 100%);*/
+  /*background: -webkit-linear-gradient(#edf0f4 40%, #fff 90%);*/
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  height: 100%;
+  color: #444;
+}
+
+/* line 22, ../sass/screen.scss */
+#top {
+  background: #bd3632;
+  padding: 5px 5px 5px 5px;
+  height: 44px;
+  width: 570px;
+  vertical-align: middle;
+  -webkit-border-radius: 44px;
+  -moz-border-radius: 44px;
+  -ms-border-radius: 44px;
+  -o-border-radius: 44px;
+  border-radius: 44px;
+  margin: 0 auto;
+  margin-top: 17%;
+  -webkit-box-shadow: #888888 1px 1px 2px;
+  -moz-box-shadow: #888888 1px 1px 2px;
+  box-shadow: #888888 1px 1px 2px;
+}
+/* line 32, ../sass/screen.scss */
+#top input {
+  padding-left: 10px;
+  margin-left: 10px;
+}
+
+/* line 38, ../sass/screen.scss */
+h1 {
+  font-family: "Grand Hotel";
+  font-size: 32px;
+  color: #fafafa;
+  margin: 0;
+  margin-left: 20px;
+  text-shadow: #444444 1px 1px 2px;
+  display: inline;
+}
+
+/* line 48, ../sass/screen.scss */
+#search {
+  width: 340px;
+  margin-top: 5px;
+  border-radius: 20px;
+}
+
+/* line 54, ../sass/screen.scss */
+#globe {
+  position: relative;
+  top: 3px;
+  color: #efefef;
+  -webkit-box-shadow: #222222 1px 1px 2px;
+  -moz-box-shadow: #222222 1px 1px 2px;
+  box-shadow: #222222 1px 1px 2px;
+  background: #9b2826;
+  padding: 5px;
+  width: 60px;
+  height: 40px;
+  -webkit-border-radius: 1000px;
+  -moz-border-radius: 1000px;
+  -ms-border-radius: 1000px;
+  -o-border-radius: 1000px;
+  border-radius: 1000px;
+}
+
+/* line 66, ../sass/screen.scss */
+#main {
+  width: 960px;
+  height: 600px;
+  margin: 0px auto;
+}
+
+/* line 72, ../sass/screen.scss */
+.rounded, #chart, #leaderboard {
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
+  border-radius: 8px;
+  -webkit-box-shadow: #aaaaaa -1px -1px 7px inset;
+  -moz-box-shadow: #aaaaaa -1px -1px 7px inset;
+  box-shadow: #aaaaaa -1px -1px 7px inset;
+}
+
+/* line 77, ../sass/screen.scss */
+#chart {
+  background: #fafafa;
+  width: 650px;
+  height: 500px;
+  margin: 0 auto;
+  margin-top: 50px;
+  display: none;
+}
+
+/* line 87, ../sass/screen.scss */
+#leaderboard {
+  -webkit-box-shadow: #aaaaaa 1px 2px 7px;
+  -moz-box-shadow: #aaaaaa 1px 2px 7px;
+  box-shadow: #aaaaaa 1px 2px 7px;
+  background: #aaa;
+  float: right;
+  width: 270px;
+  height: 500px;
+  margin: 0 20px 0 10px;
+}
+/* line 95, ../sass/screen.scss */
+#leaderboard table {
+  -moz-border-radius-topleft: 8px;
+  -webkit-border-top-left-radius: 8px;
+  border-top-left-radius: 8px;
+  -moz-border-radius-topright: 8px;
+  -webkit-border-top-right-radius: 8px;
+  border-top-right-radius: 8px;
+  width: 100%;
+}
+/* line 99, ../sass/screen.scss */
+#leaderboard table thead {
+  font-weight: bold;
+}
+/* line 102, ../sass/screen.scss */
+#leaderboard table tr td {
+  padding: 5px 10px;
+}
+/* line 105, ../sass/screen.scss */
+#leaderboard table .zebra1 {
+  background: #EFE3E7;
+}
+/* line 108, ../sass/screen.scss */
+#leaderboard table .zebra2 {
+  background: #fff;
+}
+
+/* line 114, ../sass/screen.scss */
+#graphbg {
+  position: fixed;
+  bottom: -270px;
+  right: 0;
+  z-index: -1;
+}
+
+/*****
+D3 STYLES
+*****/
+/* line 126, ../sass/screen.scss */
+line.link {
+  fill: none;
+  stroke: #9ecae1;
+  stroke-width: 1.5px;
+}
