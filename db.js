@@ -52,7 +52,7 @@ var getNetwork = function(user, depth, fun) {
 		db.collection('users').find({_id:user},function(err, result) {
 		    if (err) return console.dir(err);
                     else result.toArray( function(err, arOut) {
-
+			
 			console.log("output: " + JSON.stringify(arOut));
 			// loop through all friends
 			if(arOut[0].friends) {
