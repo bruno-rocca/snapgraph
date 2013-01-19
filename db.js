@@ -27,6 +27,9 @@ var addUser = function(userObject, fun) {
         if(!err) {
             console.log("We are connected!");
 	    userObject.t = new Date();
+
+	    console.log('adding to db: ' + JSON.stringify(userObject));
+
             db.collection('users').update({_id: userObject.name}, userObject, {upsert:true}, function(err) {
                 if (err) return console.dir(err);
 		fun();
