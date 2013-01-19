@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  	<meta charset="utf-8">
+  	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  	<meta name="author" content="David Hu">
+
+  	<title>d3test</title>
+	<link rel="stylesheet" href="../css/bootstrap.css" />
+	<link href="../css/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" />
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600' rel='stylesheet' type='text/css'>
+	<script src="http://d3js.org/d3.v3.min.js"></script>
+	<script type="text/javascript" src="../js/bootstrap.js"></script>
+	<script type="text/javascript" src="../js/graph.js"></script>
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+</head>
+<body>
+	<div id="main">
+		<h1>Graph Search</h1>
+		<div id="chart"></div>
+		<div id="leaderboard">
+			<table>
+				<thead>
+					<tr>
+						<td>Name</td>
+						<td>HISCORE</td>
+					</tr>
+				</thead>
+				<tbody>
+					<% for(var i = 0; i < 10; i++) { %>
+					<tr class="<% if (i % 2 === 0) { %> zebra1 <% } else { %> zebra2 <% } %>"> 
+						<td>jasdevsingh</td>
+						<td>2300</td>
+					</tr>
+					<% } %>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div id="bottom"></div>
+	<img src="../img/graphs.png" id="graphbg" />
+</body>
+</html>
