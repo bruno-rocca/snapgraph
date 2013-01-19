@@ -36,10 +36,11 @@ var addUser = function(userObject, fun) {
     });
 };
 
-/* 
-var networkData = {};
+
+var networkData = "";
 
 var getNetwork = function(user, depth, fun) {
+    console.log("getNetwork: "+user+", "+depth);
     if(depth == 0) {
 	fun(networkData);
     }
@@ -51,8 +52,20 @@ var getNetwork = function(user, depth, fun) {
 		db.collection('users').find({_id:user},function(err, result) {
 		    if (err) return console.dir(err);
                     else result.toArray( function(err, arOut) {
+
 			console.log("output: " + JSON.stringify(arOut));
-			
+			// loop through all friends
+			if(arOut[0].friends) {
+			    for(var i=0; i<arOut[0].friends.length; i++) {
+				if(arOut[0].friends[i].name === undefined) {
+				    continue;
+				}
+				else {
+				    networkData += arOut[0].friends[i].name+" ";
+				    getNetwork(arOut[0].friends[i].name, depth-1, fun);
+				}
+			    }
+			}
                     } );
 		});
             }
@@ -62,6 +75,7 @@ var getNetwork = function(user, depth, fun) {
 	});
     }
 };
-*/
+
+exports.getNetwork = getNetwork;
 exports.getUser = getUser;
 exports.addUser = addUser;
