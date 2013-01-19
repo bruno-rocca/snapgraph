@@ -54,6 +54,13 @@ app.get('/getuser', function(req, res) {
   }
 });
 
+app.get('/graph', function(req, res) {
+  var name = req.query.u;
+  db.getNetwork(name, 2, function(out) {
+    res.send('output is ' + JSON.stringify(out));
+  });
+});
+
 var port = process.env.PORT || 5000;
 app.listen(port, function() {
   console.log("Listening on " + port);

@@ -36,17 +36,17 @@ var addUser = function(userObject, fun) {
     });
 };
 
-
-var netDat = [];
-
+// returns a JSON of a user's network
 var getNetwork = function(user, depth, fun) {
-    
-    netDat.push("{");
+    var netDat = {};
 
     console.log("getNetwork: "+user+", "+depth);
-    if(depth == 0) {
 
-	fun(netDat.join(""));
+    if(depth == 0) { // base case
+	netDat.name = user;
+	netDat.size = 1;
+	console.log("in base case, returning "+JSON.stringify(netDat));
+	return netDat;
     }
     else {
 	Db.connect(process.env.MONGOLAB_URI || 'mongodb://localhost:27017/test', function(err, db) {
@@ -66,13 +66,27 @@ var getNetwork = function(user, depth, fun) {
 			    }
 			    else {
 				if(arOut[0].friends) {
+				    netDat.name = user;
+				    var kids = [];
 				    for(var i=0; i<arOut[0].friends.length; i++) {
 					if(arOut[0].friends[i].name === undefined) {
 					    continue;
 					}
 					else {
-					    getNetwork(arOut[0].friends[i].name, depth-1, fun);
+					    var child = getNetwork(arOut[0].friends[i].name, depth-1, fun);
+					    kids.push(child);
 					}
+				    }
+
+				    netDat.friends = kids;
+
+				    console.log('depth = '+ depth);
+				    if(depth == 2) {
+					console.log('netDat: '+JSON.stringify(netDat));
+					fun(netDat);
+				    }
+				    else {
+					return netDat;
 				    }
 				}
 			    }
@@ -86,7 +100,8 @@ var getNetwork = function(user, depth, fun) {
 	});
     }
 
-    netDat.push("}");
+
+    
 };
 
 exports.getNetwork = getNetwork;
