@@ -103,7 +103,8 @@
 					            .data(links, function(d) { return d.source.id + "-" + d.target.id; });
 
 					        link.enter().insert("line")
-					            .attr("class", "link");
+					            .attr("class", "link")
+					            .style("z-index", 2);
 
 					        link.exit().remove();
 
@@ -118,7 +119,8 @@
 								// .attr("cx", function(d) { return d.x + Math.random()*100; })
 								// .attr("cy", function(d) { return d.y; })
 								.attr("r", 34)
-								.style("fill", "#930");
+								.style("fill", "#930")
+								.style("z-index", 10);
 
 							node.append("svg:image")
 								.attr("xlink:href", "../img/snapchat.jpg")
