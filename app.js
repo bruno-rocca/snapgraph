@@ -12,7 +12,7 @@ var scraper = require('./routes.js');
 var db = require('./db.js');
 
 app.get('/', function(req, res) {
-  response.render('landing.ejs', {layout: false});
+  res.render('landing.ejs', {layout: false});
 });
 
 // API endpoints
