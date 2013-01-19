@@ -106,11 +106,12 @@ h1 {
   background: #fafafa;
   width: 650px;
   height: 500px;
-  margin: 0 10px 0 0px;
-  float: left;
+  margin: 0 auto;
+  margin-top: 50px;
+  display: none;
 }
 
-/* line 86, ../sass/screen.scss */
+/* line 87, ../sass/screen.scss */
 #leaderboard {
   -webkit-box-shadow: #aaaaaa 1px 2px 7px;
   -moz-box-shadow: #aaaaaa 1px 2px 7px;
@@ -121,7 +122,7 @@ h1 {
   height: 500px;
   margin: 0 20px 0 10px;
 }
-/* line 94, ../sass/screen.scss */
+/* line 95, ../sass/screen.scss */
 #leaderboard table {
   -moz-border-radius-topleft: 8px;
   -webkit-border-top-left-radius: 8px;
@@ -131,24 +132,24 @@ h1 {
   border-top-right-radius: 8px;
   width: 100%;
 }
-/* line 98, ../sass/screen.scss */
+/* line 99, ../sass/screen.scss */
 #leaderboard table thead {
   font-weight: bold;
 }
-/* line 101, ../sass/screen.scss */
+/* line 102, ../sass/screen.scss */
 #leaderboard table tr td {
   padding: 5px 10px;
 }
-/* line 104, ../sass/screen.scss */
+/* line 105, ../sass/screen.scss */
 #leaderboard table .zebra1 {
   background: #EFE3E7;
 }
-/* line 107, ../sass/screen.scss */
+/* line 108, ../sass/screen.scss */
 #leaderboard table .zebra2 {
   background: #fff;
 }
 
-/* line 113, ../sass/screen.scss */
+/* line 114, ../sass/screen.scss */
 #graphbg {
   position: fixed;
   bottom: -270px;
