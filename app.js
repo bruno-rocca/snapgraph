@@ -3,12 +3,16 @@ var express = require('express');
 var nodeio = require('node.io');
 var qs = require('querystring');
 var app = express.createServer(express.logger());
+
+app.use(express.static(__dirname + '/public'));
+
+
 var scraper = require('./routes.js');
 
 var db = require('./db.js');
 
 app.get('/', function(req, res) {
-  res.send("Index");
+  res.render('landing.ejs', {layout: false});
 });
 
 // API endpoints

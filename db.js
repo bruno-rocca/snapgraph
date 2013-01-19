@@ -25,7 +25,7 @@ var addUser = function(userObject, fun) {
     Db.connect(process.env.MONGOLAB_URI || 'mongodb://localhost:27017/test', function(err, db) {
         if(!err) {
             console.log("We are connected!");
-            db.collection('users').update({_id: userObject._id}, userObject, {safe:true, upsert:true}, function(err) {
+            db.collection('users').update({_id: userObject.name}, userObject, {upsert:true}, function(err) {
                 if (err) return console.dir(err);
 		fun();
             });
@@ -37,12 +37,16 @@ var addUser = function(userObject, fun) {
 };
 
 
-var networkData = "";
+var netDat = [];
 
 var getNetwork = function(user, depth, fun) {
+    
+    netDat.push("{");
+
     console.log("getNetwork: "+user+", "+depth);
     if(depth == 0) {
-	fun(networkData);
+
+	fun(netDat.join(""));
     }
     else {
 	Db.connect(process.env.MONGOLAB_URI || 'mongodb://localhost:27017/test', function(err, db) {
@@ -55,14 +59,21 @@ var getNetwork = function(user, depth, fun) {
 			
 			console.log("output: " + JSON.stringify(arOut));
 			// loop through all friends
-			if(arOut[0].friends) {
-			    for(var i=0; i<arOut[0].friends.length; i++) {
-				if(arOut[0].friends[i].name === undefined) {
-				    continue;
-				}
-				else {
-				    networkData += arOut[0].friends[i].name+" ";
-				    getNetwork(arOut[0].friends[i].name, depth-1, fun);
+			if(arOut != null)
+			{
+			    if(arOut[0] === undefined) {
+				console.log('arOut is undefined');
+			    }
+			    else {
+				if(arOut[0].friends) {
+				    for(var i=0; i<arOut[0].friends.length; i++) {
+					if(arOut[0].friends[i].name === undefined) {
+					    continue;
+					}
+					else {
+					    getNetwork(arOut[0].friends[i].name, depth-1, fun);
+					}
+				    }
 				}
 			    }
 			}
@@ -74,6 +85,8 @@ var getNetwork = function(user, depth, fun) {
             }
 	});
     }
+
+    netDat.push("}");
 };
 
 exports.getNetwork = getNetwork;
