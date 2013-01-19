@@ -55,7 +55,7 @@ exports.getUser = function(name, res){
                     obj.score = score;
                     obj.friends = pairs;
 
-                    db.addUser(obj, function(r) {
+                    db.addUser(obj, function(){
                         res.send(obj);
                     });
                 }

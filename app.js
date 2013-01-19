@@ -12,30 +12,7 @@ var scraper = require('./routes.js');
 var db = require('./db.js');
 
 app.get('/', function(req, res) {
-  res.send("Index");
-});
-
-/*
-  db.getUser('binroot', function(out) {
-      console.log(JSON.stringify(out));
-      res.send('output is '+JSON.stringify(out));
-  });
-*/
-app.get('/landing', function(request, response) {
-	response.render('landing.ejs', {layout: false});
-});
-
-app.get('/getuser', function(req, res) {
-  var name = req.query.u;
-  
-  if (typeof name === "undefined"){
-	res.send({"error":"No username given"});
-  }
-  else{
-	console.log("Making a request for user: " + name);
-	var result = scraper.getUser(name);
-	res.send(result);
-  }
+  response.render('landing.ejs', {layout: false});
 });
 
 // API endpoints
