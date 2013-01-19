@@ -57,7 +57,7 @@ app.get('/getuser', function(req, res) {
 
 app.get('/graph', function(req, res) {
   var name = req.query.u;
-  db.refreshGraph(name, res, []);
+  db.refreshGraph(name, res);
 });
 
 /** REFRESHGRAPH

@@ -103,49 +103,80 @@ var getNetwork = function(user, depth, fun) {
     }    
 };
 
-var refreshGraph = function(user, res, seen) {
+var refreshGraph = function(user, res) {
     //Refreshes graph to DB given a username until it can't recurse any farther
 
-    var netDat = {};
-    netDat.name = user;
+    var dat = {};
+    dat.name = user;
 
     Db.connect(process.env.MONGOLAB_URI || 'mongodb://localhost:27017/test', function(err, db) {
         if(!err) {
 	    console.log("We are connected!");
-
 	    db.collection('users').findOne({_id: user}, function(err, out) {
 		if (err) return console.dir(err);
-
 		if (!out) return;
 
-		console.log("the output: " + JSON.stringify(out));
-// ----------------------------
 
-		if(seen.indexOf(out._id) > -1){
-		    return;
+		console.log('user ' + JSON.stringify(out.friends));
+
+		switch(out.friends.length) {
+		    
+		case 0: 
+		    dat.children = [];
+		    res.send(dat);
+		    break;
+
+		case 1: 
+		    db.collection('users').findOne({_id: out.friends[0].name}, function(err, out0) {
+			var f = [];
+			f.push({name: out0._id, score: out0.score});
+			dat.children = f;
+			
+			res.send(JSON.stringify(dat));
+			
+		    });
+		    break;
+
+		case 2: 
+                    db.collection('users').findOne({_id: out.friends[0].name}, function(err, out0) {
+		        db.collection('users').findOne({_id: out.friends[1].name}, function(err, out1) {
+			        var f = [];
+			    
+				f.push({name: out0._id, score: out0.score});
+				f.push({name: out1._id, score: out1.score});
+
+				dat.children = f;
+			    
+				res.send(JSON.stringify(dat));
+			});
+		    });		
+
+		    break;
+
+		case 3: 
+                    db.collection('users').findOne({_id: out.friends[0].name}, function(err, out0) {
+		        db.collection('users').findOne({_id: out.friends[1].name}, function(err, out1) {
+			    db.collection('users').findOne({_id: out.friends[2].name}, function(err, out2) {
+			        var f = [];
+			    
+				f.push({name: out0._id, score: out0.score});
+				f.push({name: out1._id, score: out1.score});
+				f.push({name: out2._id, score: out2.score});
+
+				dat.children = f;
+			    
+				res.send(JSON.stringify(dat));
+			    });
+			});
+		    });		
+		    break;
 		}
-		else{
-		    seen.push(out._id);
 
-		    var kids = [];
-
-		    for(var i = 0; i < out.friends.length; i++){
-
-			console.log(out.friends[i].name);
-
-			if(seen.indexOf(out.friends[i].name) > -1){
-			    continue;
-			}
-			else{
-			    exports.refreshGraph(out.friends[i].name, res, seen);
-			}
-		    }
-
-		    res.send("Done");
-		}
+		
 
 
-// ----------------------------
+
+
 	    });
 	}
         else {
