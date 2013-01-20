@@ -89,6 +89,14 @@ app.get('/leaderboard', function(req, res){
   });
 });
 
+app.get('/link', function(req, res){
+    var u1 = req.query.u1;
+    var u2 = req.query.u2;
+    db.getGlobal(u1, u2, function(out){
+	res.send(JSON.stringify(out));
+    });
+});
+
 var port = process.env.PORT || 5000;
 app.listen(port, function() {
   console.log("Listening on " + port);
