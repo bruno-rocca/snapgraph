@@ -57,7 +57,7 @@
 
 					    // Add and remove elements on the graph object
 					    this.addNode = function (id) {
-					        nodes.push({"id":id});
+					        nodes.push({"id":id, "attraction": 0});
 					        update();
 					    }
 
@@ -72,8 +72,9 @@
 					        update();
 					    }
 
-					    this.addLink = function (source, target) {
+					    this.addLink = function (source, target, strength) {
 					        links.push({"source":findNode(source),"target":findNode(target)});
+					        findNode(target).attraction += strength;
 					        update();
 					    }
 
@@ -95,7 +96,9 @@
 
 					    var force = d3.layout.force()
 					        .gravity(.05)
-					        .distance(100)
+					        .distance(function(d) { 
+					        	var dist = 150-d.source.attraction-d.target.attraction;
+					        	return dist; })
 					        .charge(-500)
 					        .size([w, h]);
 
@@ -149,7 +152,11 @@
 					        });
 
 					        node.order();
-
+					   //      force
+								// .gravity(.05)
+								// .distance(100)
+								// .charge(function() { return Math.random()*-100})
+								// .size([w, h]);
 					        // Restart the force layout.
 					        force.start();
 
@@ -197,14 +204,14 @@
 								$('#top').effect('shake', {times: 4, distance:5}, 200);
 							}
 							if(result.children.length === 0) {
-								graph.addNode(name);								
+								graph.addNode(name);						
 							} else {
 								for(var i = 0; i < result.children.length; i++) {
 									var f = result.children[i].name;
 
 									graph.addNode(name);
 									graph.addNode(f);
-									graph.addLink(name, f);
+									graph.addLink(name, f, result.children[i].score);
 
 								}
 							}
