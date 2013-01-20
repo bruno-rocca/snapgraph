@@ -5,7 +5,7 @@
   	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   	<meta name="author" content="David Hu">
 
-  	<title>snapgraph</title>
+  	<title>Snapgraph</title>
 	<link rel="stylesheet" href="../css/bootstrap.css" />
 	<link rel="stylesheet" href="../fortawesome/css/font-awesome.min.css" />
 	<link href="../css/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" />
@@ -16,43 +16,13 @@
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="../js/graph.js"></script>
+	<script type="text/javascript" src="../js/script.js"></script>
 	<script type="text/javascript" src="../js/bootstrap.js"></script>
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
 </head>
 <body>
-
-  <div id="fb-root"></div>
-  <script>(function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s); js.id = id;
-    js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=556307127714880";
-    fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-  </script>
-
-  <div id="social">
-    <div class="fb-like" data-href="http://graphsearch.heroku.com/" data-send="false" data-layout="button_count" data-width="100" data-show-faces="false" data-font="arial">
-    </div>
-    
-    <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://graphsearch.heroku.com">Tweet</a>
-    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-
-    <!-- Place this tag where you want the +1 button to render. -->
-    <div class="g-plusone" data-size="medium" data-href="http://graphsearch.heroku.com"></div>
-
-    <!-- Place this tag after the last +1 button tag. -->
-    <script type="text/javascript">
-      (function() {
-      var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-      po.src = 'https://apis.google.com/js/plusone.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-      })();
-    </script>
-
-  </div>
 
 
 	<a href="https://github.com/Jasdev/snapgraph/wiki/Documentation"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
@@ -62,8 +32,21 @@
 		<input type="text" id="search" />
 		<i class="icon-globe icon-2x" id="globe"></i>
 	</div>
+	<div id="highscores">
+		<table style="display:none;">
+			<thead>
+				<tr class="nohover">
+					<td>Name</td>
+					<td>HISCORE</td>
+				</tr>
+			</thead>
+			<tbody id="hiscorebody">
+				
+			</tbody>
+		</table>
+	</div>
 	<div id="main">
-		<div id="tooltip" style="position:absolute;">octopi</div>
+		<div id="tooltip" style="position:absolute;"></div>
 		<div id="chart"></div>
 	</div>
 
@@ -71,6 +54,8 @@
 		<h1 id="sub"> View your Snapchat network </h1>
 		<p id="subtext">Enter your Snapchat username to see your best friends!</p>
 	</div>
+
+	<div id="boundingbox">
 
 	<div id="bottom">
 
@@ -89,102 +74,27 @@
 		<p>A <a href="http://2013s.pennapps.com/" target="_blank">Pennapps</a> Spring 2013 Hack</p>
 
 		<div id="links">
-			<a href="http://github.com/Jasdev/snapgraph" target="_blank">GitHub</a>
+			<a href="https://github.com/Jasdev/snapgraph/wiki/Documentation" target="_blank">API</a>
 			&middot;
-			<a href="https://github.com/Jasdev/snapgraph/wiki/Documentation" target="_blank">Wiki</a>	
+			<a href="http://github.com/Jasdev/snapgraph" target="_blank">GitHub</a>	
 		</div>
 		
 
 	</div>
+</div>
 	<img src="../img/graphs.png" id="graphbg" />
+	<script type="text/javascript">
 
+	  var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-37315127-2']);
+	  _gaq.push(['_trackPageview']);
 
-	<script>
+	  (function() {
+	    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();
 
-	$(document).ready(function() {
-		$("#david").tooltip({
-		   'title': 'David Hu, <font color="#1f8f92">@octopi</font>',
-		   'html': true,
-		   'placement': 'left'
-		 });
-
-		$("#nishant").tooltip({
-		   'title': 'Nishant Shukla, <font color="#1f8f92">@binroo</font>',
-		   'html': true,
-		   'placement': 'right'
-		 });
-
-		$("#jasdev").tooltip({
-		   'title': 'Jasdev Singh, <font color="#1f8f92">@justdavesingh</fonts>',
-		   'html': true,
-		   'placement': 'top'
-		 });
-
-		// tooltip always follows mouse
-		$('body').mousemove(function(e) {
-			$('#tooltip').css({'top': e.clientY + 20, 'left': e.clientX});
-		});
-
-
-		$('#search').keypress(function(e) {
-			if(e.which === 13) {
-				magToLoading();
-				$('#chart').html('');
-				$('#top').animate({
-					marginTop: '2%'
-				}, 400, function() { console.log('done'); });
-				$('#chart').fadeIn(400, function() {
-					var graph = new myGraph("#chart");
-					var user = $('#search').val();
-					addToGraph(graph, user);
-
-					function addToGraph(graph, name) {
-						$.ajax({
-							url: 'getuser?u=' + name
-						}).done(function(result) {
-							console.log('DONE', result);
-							loadingToMag();
-
-							if(result.error) {
-								$('#top').effect('shake', {times: 4, distance:5}, 200);
-							}
-							if(result.children.length === 0) {
-								graph.addNode(name);						
-							} else {
-								for(var i = 0; i < result.children.length; i++) {
-									var f = result.children[i].name;
-
-									graph.addNode(name);
-									graph.addNode(f);
-									graph.addLink(name, f, result.children[i].score);
-
-								}
-							}
-						});
-					}
-					
-					$(document).on('click', 'g', function(e) {
-						magToLoading();
-						addToGraph(graph, e.currentTarget.__data__.id);
-					});
-										
-				});
-				e.preventDefault();
-			}
-		}); // end #search.keypress
-
-		function magToLoading() {
-			$('#searchStatus').attr('class', '');
-			$('#searchStatus').addClass('icon-repeat');
-			$('#searchStatus').addClass('icon-spin');
-			$('#search').prop('disabled', true);
-		}
-		function loadingToMag() {
-			$('#searchStatus').attr('class', '');
-			$('#searchStatus').addClass('icon-search');
-			$('#search').prop('disabled', false);
-		}
-	});
 	</script>
 </body>
 </html>
