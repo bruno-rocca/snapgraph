@@ -67,7 +67,10 @@
 		<div id="chart"></div>
 	</div>
 
-
+	<div id="help">
+		<h1 id="sub"> View your Snapchat network </h1>
+		<p id="subtext">Enter your Snapchat username to see your best friends!</p>
+	</div>
 
 	<div id="bottom">
 
@@ -82,6 +85,8 @@
 		<a id="nishant" target="_blank" href="http://twitter.com/binroo" rel="tooltip">
 			<img src="../img/nishant.jpg" class="img-circle" />
 		</a>
+
+		<p>A <a href="http://2013s.pennapps.com/" target="_blank">Pennapps</a> Spring 2013 Hack</p>
 
 		<div id="links">
 			<a href="http://github.com/Jasdev/snapgraph" target="_blank">GitHub</a>
@@ -98,17 +103,20 @@
 
 	$(document).ready(function() {
 		$("#david").tooltip({
-		   'title': 'David Hu, @octopi',
+		   'title': 'David Hu, <font color="#1f8f92">@octopi</font>',
+		   'html': true,
 		   'placement': 'left'
 		 });
 
 		$("#nishant").tooltip({
-		   'title': 'Nishant Shukla, @binroo',
+		   'title': 'Nishant Shukla, <font color="#1f8f92">@binroo</font>',
+		   'html': true,
 		   'placement': 'right'
 		 });
 
 		$("#jasdev").tooltip({
-		   'title': 'Jasdev Singh, @justdavesingh',
+		   'title': 'Jasdev Singh, <font color="#1f8f92">@justdavesingh</fonts>',
+		   'html': true,
 		   'placement': 'top'
 		 });
 

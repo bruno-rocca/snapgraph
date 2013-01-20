@@ -57,6 +57,24 @@ h1 {
 }
 
 /* line 48, ../sass/screen.scss */
+h1#sub {
+  font-family: "Ubuntu";
+  font-size: 80px;
+  margin: 0;
+  color: #BFAEB5;
+  margin-left: 20px;
+  line-height: 90px;
+  text-shadow: #444444 1px 1px 2px;
+  display: inline;
+}
+
+/* line 59, ../sass/screen.scss */
+#subtext {
+  font-size: 18px;
+  padding-bottom: 30px;
+}
+
+/* line 64, ../sass/screen.scss */
 #search {
   width: 330px;
   margin-top: 5px;
@@ -66,7 +84,7 @@ h1 {
   border-radius: 20px;
 }
 
-/* line 57, ../sass/screen.scss */
+/* line 73, ../sass/screen.scss */
 #globe {
   position: relative;
   top: 3px;
@@ -85,19 +103,19 @@ h1 {
   border-radius: 1000px;
 }
 
-/* line 69, ../sass/screen.scss */
+/* line 85, ../sass/screen.scss */
 #globe:hover {
   cursor: pointer;
 }
 
-/* line 73, ../sass/screen.scss */
+/* line 89, ../sass/screen.scss */
 #main {
   width: 960px;
-  height: 200px;
+  height: 75px;
   margin: 0px auto;
 }
 
-/* line 79, ../sass/screen.scss */
+/* line 95, ../sass/screen.scss */
 .rounded, #chart, #leaderboard {
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
@@ -109,7 +127,7 @@ h1 {
   box-shadow: #aaaaaa -1px -1px 7px inset;
 }
 
-/* line 84, ../sass/screen.scss */
+/* line 100, ../sass/screen.scss */
 #chart {
   background: #fafafa;
   width: 650px;
@@ -119,7 +137,7 @@ h1 {
   display: none;
 }
 
-/* line 94, ../sass/screen.scss */
+/* line 110, ../sass/screen.scss */
 #leaderboard {
   -webkit-box-shadow: #aaaaaa 1px 2px 7px;
   -moz-box-shadow: #aaaaaa 1px 2px 7px;
@@ -130,7 +148,7 @@ h1 {
   height: 500px;
   margin: 0 20px 0 10px;
 }
-/* line 102, ../sass/screen.scss */
+/* line 118, ../sass/screen.scss */
 #leaderboard table {
   -moz-border-radius-topleft: 8px;
   -webkit-border-top-left-radius: 8px;
@@ -140,24 +158,24 @@ h1 {
   border-top-right-radius: 8px;
   width: 100%;
 }
-/* line 106, ../sass/screen.scss */
+/* line 122, ../sass/screen.scss */
 #leaderboard table thead {
   font-weight: bold;
 }
-/* line 109, ../sass/screen.scss */
+/* line 125, ../sass/screen.scss */
 #leaderboard table tr td {
   padding: 5px 10px;
 }
-/* line 112, ../sass/screen.scss */
+/* line 128, ../sass/screen.scss */
 #leaderboard table .zebra1 {
   background: #EFE3E7;
 }
-/* line 115, ../sass/screen.scss */
+/* line 131, ../sass/screen.scss */
 #leaderboard table .zebra2 {
   background: #fff;
 }
 
-/* line 121, ../sass/screen.scss */
+/* line 137, ../sass/screen.scss */
 #graphbg {
   position: fixed;
   bottom: -270px;
@@ -165,7 +183,7 @@ h1 {
   z-index: -1;
 }
 
-/* line 128, ../sass/screen.scss */
+/* line 144, ../sass/screen.scss */
 #tooltip {
   background: #444;
   color: #fafafa;
@@ -186,7 +204,7 @@ h1 {
 /*****
 D3 STYLES
 *****/
-/* line 144, ../sass/screen.scss */
+/* line 160, ../sass/screen.scss */
 line.link {
   fill: none;
   stroke-width: 1.5px;
@@ -194,35 +212,41 @@ line.link {
   z-index: -10;
 }
 
-/* line 151, ../sass/screen.scss */
+/* line 167, ../sass/screen.scss */
 g.node {
   position: relative;
   z-index: 5;
 }
 
-/* line 156, ../sass/screen.scss */
+/* line 172, ../sass/screen.scss */
 g.node:hover {
   cursor: pointer;
 }
 
-/* line 160, ../sass/screen.scss */
+/* line 176, ../sass/screen.scss */
 div#bottom {
   text-align: center;
   width: 350px;
   margin: 0px auto;
 }
-/* line 161, ../sass/screen.scss */
+/* line 177, ../sass/screen.scss */
 div#bottom a {
   display: inline-block;
 }
-/* line 165, ../sass/screen.scss */
+/* line 181, ../sass/screen.scss */
 div#bottom img {
-  margin: 0px auto;
+  margin: 10px auto;
   width: 100px;
   height: 100px;
 }
-/* line 170, ../sass/screen.scss */
+/* line 186, ../sass/screen.scss */
 div#bottom div#links {
   width: 200;
   margin: 10px auto;
+}
+
+/* line 192, ../sass/screen.scss */
+div#help {
+  margin: 0px auto;
+  text-align: center;
 }
