@@ -79,7 +79,7 @@ app.get('/refreshgraph', function(req, res){
     console.log("Making a /refreshgraph request for user: " + name);
 
     //Start depth off at 0
-    scraper.refreshGraph(name, res, depth, 0);
+    scraper.refreshGraph(name, res, depth, 0, [name]);
   }
 });
 

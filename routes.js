@@ -95,7 +95,7 @@ exports.getUser = function(name, res, fun){
 
 };
 
-exports.refreshGraph = function(user, res, maxDepth, curDepth){
+exports.refreshGraph = function(user, res, maxDepth, curDepth, seen){
     console.log("Current depth is " + curDepth);
     var curUser = exports.getUser(user, res, function(out){
         
@@ -103,7 +103,9 @@ exports.refreshGraph = function(user, res, maxDepth, curDepth){
 
         if(curDepth < maxDepth){
             for(var j = 0; j < out.children.length; j++){
-                exports.refreshGraph(out.children[j].name, res, maxDepth, curDepth + 1);
+		if(seen.indexOf(out.children[j].name) == -1) {
+                    exports.refreshGraph(out.children[j].name, res, maxDepth, curDepth + 1, seen.concat([ out.children[j].name ]));
+		}
             }
         }
     });
