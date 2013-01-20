@@ -57,7 +57,7 @@
 
 					    // Add and remove elements on the graph object
 					    this.addNode = function (id) {
-					        nodes.push({"id":id, "attraction": 0});
+					        nodes.push({"id":id, "attraction": {} });
 					        update();
 					    }
 
@@ -74,7 +74,7 @@
 
 					    this.addLink = function (source, target, strength) {
 					        links.push({"source":findNode(source),"target":findNode(target)});
-					        findNode(target).attraction += strength;
+					        findNode(source).attraction[target] = strength*2.4;
 					        update();
 					    }
 
@@ -96,9 +96,14 @@
 
 					    var force = d3.layout.force()
 					        .gravity(.05)
-					        .distance(function(d) { 
-					        	var dist = 150-d.source.attraction-d.target.attraction;
-					        	return dist; })
+					        .distance(function(d) {
+					        	var dist = 120;
+					        	if(d.source.attraction[d.target.id] !== undefined)
+					        		dist -= d.source.attraction[d.target.id];
+					        	if(d.target.attraction[d.source.id] !== undefined)
+					        		dist -= d.target.attraction[d.source.id];
+					        	console.log('DIST', dist, d.source.attraction[d.target.id], d.target.attraction[d.source.id]);
+					        	return dist > 40 ? dist : 40; })
 					        .charge(-500)
 					        .size([w, h]);
 
