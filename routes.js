@@ -78,7 +78,7 @@ exports.getUser = function(name, res, fun){
                console.log("Using db hit");
 
                //Check time difference
-               if(hoursBetween(new Date(user.t), new Date()) > 1){
+               if(hoursBetween(new Date(user.t), new Date()) > 20){
                     console.log("Stale data, updating");
                     nodeio.start(runner, {timeout: 100});
                }else{
