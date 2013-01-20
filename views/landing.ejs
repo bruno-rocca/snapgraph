@@ -16,6 +16,7 @@
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="../js/graph.js"></script>
+	<script type="text/javascript" src="../js/jquery.flip.min.js"></script>
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
@@ -28,8 +29,21 @@
 		<input type="text" id="search" />
 		<i class="icon-globe icon-2x" id="globe"></i>
 	</div>
+	<div id="highscores">
+		<table style="display:none;">
+			<thead>
+				<tr class="nohover">
+					<td>Name</td>
+					<td>HISCORE</td>
+				</tr>
+			</thead>
+			<tbody id="hiscorebody">
+				
+			</tbody>
+		</table>
+	</div>
 	<div id="main">
-		<div id="tooltip" style="position:absolute;">octopi</div>
+		<div id="tooltip" style="position:absolute;"></div>
 		<div id="chart"></div>
 	</div>
 	<div id="bottom"></div>
@@ -44,53 +58,87 @@
 			$('#tooltip').css({'top': e.clientY + 20, 'left': e.clientX});
 		});
 
+		// clicking the globe shows
+		var showing = false;
+		$('#globe').click(function() {
+			if(!showing) {
+				// get high scores
+				$.ajax({
+					url: 'leaderboard'
+				}).done(function(result) {
+					$('#hiscorebody').html('');
+					for(var i = 0; i < result.length; i++) {
+						$('#hiscorebody').append('<tr ' + (i % 2 === 0 ? 'class="zebra1"' : '') + '><td>'+result[i]._id+'</td><td>'+result[i].score+'</td></tr>');
+					}
+					$('#highscores table').show('slide', {direction: 'up'}, 400);
+				});
+			} else {
+				$('#highscores table').hide('slide', {direction: 'up'}, 400);
+			}
+			showing = !showing;
+		});
 
+		// clicking a tr shows their graph
+		$(document).on('click', '#hiscorebody tr', function(e) {
+			var user = $(this)[0].firstChild.innerHTML;
+			newGraph(user);
+		});
+
+		// text search
 		$('#search').keypress(function(e) {
 			if(e.which === 13) {
-				magToLoading();
-				$('#chart').html('');
-				$('#top').animate({
-					marginTop: '2%'
-				}, 400, function() { console.log('done'); });
-				$('#chart').fadeIn(400, function() {
-					var graph = new myGraph("#chart");
-					var user = $('#search').val();
-					addToGraph(graph, user);
-
-					function addToGraph(graph, name) {
-						$.ajax({
-							url: 'getuser?u=' + name
-						}).done(function(result) {
-							console.log('DONE', result);
-							loadingToMag();
-
-							if(result.error) {
-								$('#top').effect('shake', {times: 4, distance:5}, 200);
-							}
-							if(result.children.length === 0) {
-								graph.addNode(name);						
-							} else {
-								for(var i = 0; i < result.children.length; i++) {
-									var f = result.children[i].name;
-
-									graph.addNode(name);
-									graph.addNode(f);
-									graph.addLink(name, f, result.children[i].score);
-
-								}
-							}
-						});
-					}
-					
-					$(document).on('click', 'g', function(e) {
-						magToLoading();
-						addToGraph(graph, e.currentTarget.__data__.id);
-					});
-										
-				});
+				var user = $('#search').val();
+				newGraph(user);
 				e.preventDefault();
 			}
 		}); // end #search.keypress
+
+		function newGraph(user) {
+			magToLoading();
+			$('#search').val(user);
+			$('#highscores table').hide('slide', {direction: 'up'}, 400);
+			$('#chart').html('');
+			$('#top').animate({
+				marginTop: '2%'
+			}, 400, function() { console.log('done'); });
+			$('#chart').fadeIn(400, function() {
+				var graph = new myGraph("#chart");
+				addToGraph(graph, user);
+			});
+		}
+
+		function addToGraph(graph, name) {
+			$.ajax({
+				url: 'getuser?u=' + name
+			}).done(function(result) {
+				console.log('DONE', result);
+				loadingToMag();
+
+				if(result.error) {
+					$('#top').effect('shake', {times: 4, distance:5}, 200);
+				}
+				if(result.children.length === 0) {
+					graph.addNode(name);						
+				} else {
+					for(var i = 0; i < result.children.length; i++) {
+						var f = result.children[i].name;
+
+						graph.addNode(name);
+						graph.addNode(f);
+						graph.addLink(name, f, result.children[i].score);
+
+					}
+				}
+			});
+
+			// clicking node shows more
+			$(document).on('click', 'g', function(e) {
+				magToLoading();
+				addToGraph(graph, e.currentTarget.__data__.id);
+				$('#search').val(e.currentTarget.__data__.id);
+			});
+		}
+
 
 		function magToLoading() {
 			$('#searchStatus').attr('class', '');

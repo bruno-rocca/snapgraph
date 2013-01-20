@@ -35,9 +35,9 @@ body {
   border-radius: 44px;
   margin: 0 auto;
   margin-top: 17%;
-  -webkit-box-shadow: #888888 1px 1px 2px;
-  -moz-box-shadow: #888888 1px 1px 2px;
-  box-shadow: #888888 1px 1px 2px;
+  -webkit-box-shadow: #555555 1px 1px 2px;
+  -moz-box-shadow: #555555 1px 1px 2px;
+  box-shadow: #555555 1px 1px 2px;
 }
 /* line 32, ../sass/screen.scss */
 #top input {
@@ -98,7 +98,7 @@ h1 {
 }
 
 /* line 79, ../sass/screen.scss */
-.rounded, #chart, #leaderboard {
+.rounded, #chart {
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
   -ms-border-radius: 8px;
@@ -120,44 +120,6 @@ h1 {
 }
 
 /* line 94, ../sass/screen.scss */
-#leaderboard {
-  -webkit-box-shadow: #aaaaaa 1px 2px 7px;
-  -moz-box-shadow: #aaaaaa 1px 2px 7px;
-  box-shadow: #aaaaaa 1px 2px 7px;
-  background: #aaa;
-  float: right;
-  width: 270px;
-  height: 500px;
-  margin: 0 20px 0 10px;
-}
-/* line 102, ../sass/screen.scss */
-#leaderboard table {
-  -moz-border-radius-topleft: 8px;
-  -webkit-border-top-left-radius: 8px;
-  border-top-left-radius: 8px;
-  -moz-border-radius-topright: 8px;
-  -webkit-border-top-right-radius: 8px;
-  border-top-right-radius: 8px;
-  width: 100%;
-}
-/* line 106, ../sass/screen.scss */
-#leaderboard table thead {
-  font-weight: bold;
-}
-/* line 109, ../sass/screen.scss */
-#leaderboard table tr td {
-  padding: 5px 10px;
-}
-/* line 112, ../sass/screen.scss */
-#leaderboard table .zebra1 {
-  background: #EFE3E7;
-}
-/* line 115, ../sass/screen.scss */
-#leaderboard table .zebra2 {
-  background: #fff;
-}
-
-/* line 121, ../sass/screen.scss */
 #graphbg {
   position: fixed;
   bottom: -270px;
@@ -165,7 +127,7 @@ h1 {
   z-index: -1;
 }
 
-/* line 128, ../sass/screen.scss */
+/* line 101, ../sass/screen.scss */
 #tooltip {
   background: #444;
   color: #fafafa;
@@ -183,10 +145,58 @@ h1 {
   display: none;
 }
 
+/* line 112, ../sass/screen.scss */
+#highscores {
+  width: 400px;
+  margin: 0 auto;
+  position: relative;
+}
+/* line 116, ../sass/screen.scss */
+#highscores table {
+  -webkit-box-shadow: inset -8px -8px 16px black;
+  -moz-box-shadow: inset -8px -8px 16px black;
+  box-shadow: inset -8px -8px 16px black;
+  -webkit-box-shadow: 0 1px 16px #444444;
+  -moz-box-shadow: 0 1px 16px #444444;
+  box-shadow: 0 1px 16px #444444;
+  color: #efefef;
+  background: url("../../img/black-Linen.png");
+  width: 400px;
+  position: fixed;
+  z-index: 50;
+  -webkit-border-radius: 0 0 8px 8px;
+  -moz-border-radius: 0 0 8px 8px;
+  -ms-border-radius: 0 0 8px 8px;
+  -o-border-radius: 0 0 8px 8px;
+  border-radius: 0 0 8px 8px;
+}
+/* line 125, ../sass/screen.scss */
+#highscores table thead {
+  font-weight: bold;
+}
+/* line 128, ../sass/screen.scss */
+#highscores table tr.zebra1 {
+  background: rgba(255, 255, 255, 0.1);
+}
+/* line 131, ../sass/screen.scss */
+#highscores table tr:hover {
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.2);
+}
+/* line 135, ../sass/screen.scss */
+#highscores table .nohover:hover {
+  cursor: inherit;
+  background: none;
+}
+/* line 139, ../sass/screen.scss */
+#highscores table td {
+  padding: 10px;
+}
+
 /*****
 D3 STYLES
 *****/
-/* line 144, ../sass/screen.scss */
+/* line 150, ../sass/screen.scss */
 line.link {
   fill: none;
   stroke-width: 1.5px;
@@ -194,13 +204,13 @@ line.link {
   z-index: -10;
 }
 
-/* line 151, ../sass/screen.scss */
+/* line 157, ../sass/screen.scss */
 g.node {
   position: relative;
   z-index: 5;
 }
 
-/* line 156, ../sass/screen.scss */
+/* line 162, ../sass/screen.scss */
 g.node:hover {
   cursor: pointer;
 }

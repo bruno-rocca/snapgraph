@@ -28,7 +28,7 @@ body {
 	@include border-radius(44px);
 	margin:0 auto;
 	margin-top:17%;
-	@include box-shadow(#888 1px 1px 2px);
+	@include box-shadow(#555 1px 1px 2px);
 	input {
 		padding-left:10px;
 		margin-left:10px;
@@ -91,33 +91,6 @@ h1 {
 	display:none;
 }
 
-#leaderboard {
-	@extend .rounded;
-	@include box-shadow(#aaa 1px 2px 7px);
-	background:#aaa;
-	float:right;
-	width:270px;
-	height:500px;
-	margin: 0 20px 0 10px;
-	table {
-		@include border-top-left-radius(8px);
-		@include border-top-right-radius(8px);
-		width:100%;
-		thead {
-			font-weight:bold;
-		}
-		tr td {
-			padding:5px 10px;
-		}
-		.zebra1 {
-			background: #EFE3E7;
-		}
-		.zebra2 {
-			background:#fff;
-		}
-	}
-}
-
 #graphbg {
 	position:fixed;
 	bottom:-270px;
@@ -134,6 +107,39 @@ h1 {
 	@include box-shadow(1px 1px 2px #888);
 	@include text-shadow(1px 1px 1px #010101);
 	display: none;
+}
+
+#highscores {
+	width:400px;
+	margin:0 auto;
+	position: relative;
+	table {
+		@include box-shadow(inset -8px -8px 16px #000);
+		@include box-shadow(0 1px 16px #444);
+		color:#efefef;
+		background:url('../../img/black-Linen.png');
+		width:400px;
+		position: fixed;
+		z-index: 50;
+		@include border-radius(0 0 8px 8px);
+		thead {
+			font-weight: bold;
+		}
+		tr.zebra1 {
+			background:rgba(255, 255, 255, 0.1);
+		}
+		tr:hover {
+			cursor: pointer;
+			background: rgba(255, 255, 255, 0.2);
+		}
+		.nohover:hover {
+			cursor: inherit;
+			background: none;
+		}
+		td {
+			padding:10px;
+		}
+	}
 }
 
 
