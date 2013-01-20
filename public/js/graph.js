@@ -1,7 +1,7 @@
 function myGraph(el) {
     // Add and remove elements on the graph object
     this.addNode = function (id) {
-        nodes.push({"id":id, "attraction": {} });
+        nodes.push({"id":id, "attraction": {}, "clicked":false });
         update();
     }
 
@@ -68,8 +68,12 @@ function myGraph(el) {
 
         link.exit().remove();
 
+
         var node = vis.selectAll("g.node")
-            .data(nodes, function(d) { return d.id;});
+            .data(nodes, function(d) { return d.id;})
+	    .on('click', function(d) {
+		d.clicked = true;
+	    });
 
         var nodeEnter = node.enter().append("g")
             .attr("class", "node")
@@ -82,7 +86,10 @@ function myGraph(el) {
             // .attr("cx", function(d) { return d.x + Math.random()*100; })
             // .attr("cy", function(d) { return d.y; })
             .attr("r", 30)
-            .style("fill", "#930");
+            .style("fill", function(d) {
+		if(d.clicked) return "#390";
+		else return "#930"
+	    });
 
         node.append("svg:image")
             .attr('xlink:href', '../img/snapchat.jpg')
