@@ -52,6 +52,8 @@ $(document).ready(function() {
 			$('#highscores table').hide('slide', {direction: 'up'}, 400); // just in case
 			globalShowing = false;
 			$('#routes').show('slide', {direction: 'up'}, 250);
+			$('#route1').focus().val($('#search').val());
+			$('#route2').val('');
 		} else {
 			$('#routes').hide('slide', {direction: 'up'}, 250);
 		}
@@ -81,12 +83,15 @@ $(document).ready(function() {
 			$.ajax({
 				url: 'link?u1='+user1+'&u2='+user2
 			}).done(function(result) {
-				console.log(result);
+				var r = JSON.parse(result);
+				if(r.length > 0) {
+					newGraph(user1, r);
+				}
 			});
 		}
 	});
 
-	function newGraph(user) {
+	function newGraph(user, forcedNodes) {
 		magToLoading();
 		$('#help').animate({opacity: 0}, 400, function() { $(this).css('visibility', 'hidden'); });
 		$('#boundingbox').animate({
@@ -103,7 +108,17 @@ $(document).ready(function() {
 		}, 400, function() { console.log('done'); });
 		$('#chart').fadeIn(400, function() {
 			graph = new myGraph("#chart");
-			addToGraph(graph, user);
+			console.log(forcedNodes);
+			if(forcedNodes !== undefined) {
+				graph.addNode(user);
+				for(var i = 1; i < forcedNodes.length; i++) {
+					graph.addNode(forcedNodes[i]);
+					graph.addLink(forcedNodes[i-1], forcedNodes[i], 5);
+				}
+				loadingToMag();
+			} else {
+				addToGraph(graph, user);
+			}
 		});
 	}
 
