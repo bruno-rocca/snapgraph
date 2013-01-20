@@ -23,7 +23,7 @@
 	<div id="top">
 		<h1>snapgraph</h1>
 		<input type="text" id="search" />
-		<div class="icon-search" style="position:relative;right:35px;top:-3px;"></div>
+		<div id="searchStatus" class="icon-search" style="position:relative;right:35px;top:-3px;"></div>
 		<i class="icon-globe icon-2x" id="globe"></i>
 	</div>
 	<div id="main">
@@ -43,7 +43,9 @@
 
 		$('#search').keypress(function(e) {
 			if(e.which === 13) {
-				console.log('yo');
+				$('#searchStatus').attr('class', '');
+				$('#searchStatus').addClass('icon-repeat');
+				$('#searchStatus').addClass('icon-spin');
 				$('#top').animate({
 					marginTop: '2%'
 				}, 400, function() { console.log('done'); });
@@ -193,6 +195,8 @@
 								graph.addLink(name, f);
 
 							}
+							$('#searchStatus').attr('class', '');
+							$('#searchStatus').addClass('icon-search');
 						});
 					}
 					
