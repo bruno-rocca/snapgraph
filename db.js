@@ -189,22 +189,14 @@ var refreshGraph = function(user, res) {
     });
 };
 
-
-
-
-
 var leaderboard = function(fun){
     Db.connect(process.env.MONGOLAB_URI || 'mongodb://localhost:27017/test', function(err, db) {
         if(!err) {
-			var options = {
-				"limit": 10
-			};
-
             console.log("We are connected!");
-            db.collection('users').find({}, {_id:true, score:true}, options).toArray(function(err, users) {
+            db.collection('users').find({}, {_id:true, score:true}).sort('score', -1).limit(10).toArray(function(err, users) {
                 if (err) return console.dir(err);
                 else{
-					fun(users.sort(function(a, b){return b.score-a.score;}));
+					fun(users);
                 }
             });
         }
@@ -213,7 +205,6 @@ var leaderboard = function(fun){
         }
     });
 };
-
 
 exports.refreshGraph = refreshGraph;
 exports.leaderboard = leaderboard;

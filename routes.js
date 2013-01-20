@@ -33,7 +33,7 @@ exports.getUser = function(name, res, fun){
                         });
 
                         for(var i = 0; i < names.length; i++){
-                            pairs.push({name: names[i], score: scores[i]});
+                            pairs.push({name: names[i], score: parseInt(scores[i])});
                         }
                     }
                     catch(error){
@@ -41,7 +41,7 @@ exports.getUser = function(name, res, fun){
                             //1 friend case, refactor (submit pull request to nodeio, this is pretty bad)
                             names.push($('div.best_name a').text);
                             scores.push($('div.best_score').text);
-                            pairs.push({name: names[0], score: scores[0]});
+                            pairs.push({name: names[0], score: parseInt(scores[0])});
                         }
                         catch(innerError){
                             //Really no friends
@@ -52,7 +52,7 @@ exports.getUser = function(name, res, fun){
                     var obj = {};
 
                     obj._id = user;
-                    obj.score = score;
+                    obj.score = parseInt(score);
                     obj.children = pairs;
 
                     db.addUser(obj, function(){
