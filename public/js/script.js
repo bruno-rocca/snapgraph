@@ -24,9 +24,12 @@ $(document).ready(function() {
 	});
 
 	// clicking the globe shows
-	var showing = false;
+	var globalShowing = false;
+	var connectionShowing = false;
 	$('#globe').click(function() {
-		if(!showing) {
+		$('#routes').hide('slide', {direction: 'up'}, 250); // just in case
+		connectionShowing = false;
+		if(!globalShowing) {
 			// get high scores
 			$.ajax({
 				url: 'leaderboard'
@@ -40,7 +43,19 @@ $(document).ready(function() {
 		} else {
 			$('#highscores table').hide('slide', {direction: 'up'}, 400);
 		}
-		showing = !showing;
+		globalShowing = !globalShowing;
+	});
+
+	// clicking on link
+	$("#link").click(function() {
+		if(!connectionShowing) {
+			$('#highscores table').hide('slide', {direction: 'up'}, 400); // just in case
+			globalShowing = false;
+			$('#routes').show('slide', {direction: 'up'}, 250);
+		} else {
+			$('#routes').hide('slide', {direction: 'up'}, 250);
+		}
+		connectionShowing = !connectionShowing;
 	});
 
 	// clicking a tr shows their graph
@@ -58,6 +73,19 @@ $(document).ready(function() {
 		}
 	}); // end #search.keypress
 
+	// searching for direct connection
+	$('.route').keypress(function(e) {
+		if(e.which === 13) {
+			var user1 = $('#route1').val();
+			var user2 = $('#route2').val();
+			$.ajax({
+				url: 'link?u1='+user1+'&u2='+user2
+			}).done(function(result) {
+				console.log(result);
+			});
+		}
+	});
+
 	function newGraph(user) {
 		magToLoading();
 		$('#help').animate({opacity: 0}, 400, function() { $(this).css('visibility', 'hidden'); });
@@ -66,6 +94,9 @@ $(document).ready(function() {
 		}, 400);
 		$('#search').val(user);
 		$('#highscores table').hide('slide', {direction: 'up'}, 400);
+		globalShowing = false;
+		$('#routes').hide('slide', {direction: 'up'}, 250); // just in case
+		connectionShowing = false;
 		$('#chart').html('');
 		$('#top').animate({
 			marginTop: '2%'

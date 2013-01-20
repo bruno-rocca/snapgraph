@@ -23,7 +23,7 @@ body {
 	background: #bd3632;
 	padding:5px 5px 5px 5px;
 	height:44px;
-	width: 570px;
+	width: 610px;
 	vertical-align: middle;
 	@include border-radius(44px);
 	margin:0 auto;
@@ -70,11 +70,11 @@ h1#sub {
 	border-radius: 20px;
 }
 
-#globe {
+.topbutton {
 	position:relative;
 	top:3px;
 	color:#efefef;
-	@include box-shadow(#222 1px 1px 2px);
+	@include box-shadow(#333 1px 1px 1px);
 	background:#9b2826;
 	padding:5px;
 	width:60px;
@@ -82,7 +82,7 @@ h1#sub {
 	@include border-radius(1000px);
 }
 
-#globe:hover {
+.topbutton:hover {
 	cursor: pointer;
 }
 
@@ -125,10 +125,13 @@ h1#sub {
 	display: none;
 }
 
-#highscores {
+.black {
 	width:400px;
 	margin:0 auto;
 	position: relative;
+}
+
+#highscores {
 	table {
 		@include box-shadow(inset -8px -8px 16px #000);
 		@include box-shadow(0 1px 16px #444);
@@ -155,6 +158,25 @@ h1#sub {
 		td {
 			padding:10px;
 		}
+	}
+}
+
+#connection {
+	#routes {
+		color:#efefef;
+		background:url('../../img/black-Linen.png');
+		@include box-shadow(inset -8px -8px 16px #000);
+		@include box-shadow(0 1px 16px #444);
+		@include border-radius(0 0 8px 8px);
+		padding:5px;
+		text-align: center;
+		display: none;
+		position: fixed;
+		input {
+			width:150px;
+			margin:2px;
+		}
+		
 	}
 }
 

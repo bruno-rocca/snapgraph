@@ -26,7 +26,7 @@ body {
   background: #bd3632;
   padding: 5px 5px 5px 5px;
   height: 44px;
-  width: 570px;
+  width: 610px;
   vertical-align: middle;
   -webkit-border-radius: 44px;
   -moz-border-radius: 44px;
@@ -85,13 +85,13 @@ h1#sub {
 }
 
 /* line 73, ../sass/screen.scss */
-#globe {
+.topbutton {
   position: relative;
   top: 3px;
   color: #efefef;
-  -webkit-box-shadow: #222222 1px 1px 2px;
-  -moz-box-shadow: #222222 1px 1px 2px;
-  box-shadow: #222222 1px 1px 2px;
+  -webkit-box-shadow: #333333 1px 1px 1px;
+  -moz-box-shadow: #333333 1px 1px 1px;
+  box-shadow: #333333 1px 1px 1px;
   background: #9b2826;
   padding: 5px;
   width: 60px;
@@ -104,7 +104,7 @@ h1#sub {
 }
 
 /* line 85, ../sass/screen.scss */
-#globe:hover {
+.topbutton:hover {
   cursor: pointer;
 }
 
@@ -164,12 +164,13 @@ h1#sub {
 }
 
 /* line 128, ../sass/screen.scss */
-#highscores {
+.black {
   width: 400px;
   margin: 0 auto;
   position: relative;
 }
-/* line 132, ../sass/screen.scss */
+
+/* line 135, ../sass/screen.scss */
 #highscores table {
   -webkit-box-shadow: inset -8px -8px 16px black;
   -moz-box-shadow: inset -8px -8px 16px black;
@@ -188,33 +189,59 @@ h1#sub {
   -o-border-radius: 0 0 8px 8px;
   border-radius: 0 0 8px 8px;
 }
-/* line 141, ../sass/screen.scss */
+/* line 144, ../sass/screen.scss */
 #highscores table thead {
   font-weight: bold;
 }
-/* line 144, ../sass/screen.scss */
+/* line 147, ../sass/screen.scss */
 #highscores table tr.zebra1 {
   background: rgba(255, 255, 255, 0.1);
 }
-/* line 147, ../sass/screen.scss */
+/* line 150, ../sass/screen.scss */
 #highscores table tr:hover {
   cursor: pointer;
   background: rgba(255, 255, 255, 0.2);
 }
-/* line 151, ../sass/screen.scss */
+/* line 154, ../sass/screen.scss */
 #highscores table .nohover:hover {
   cursor: inherit;
   background: none;
 }
-/* line 155, ../sass/screen.scss */
+/* line 158, ../sass/screen.scss */
 #highscores table td {
   padding: 10px;
+}
+
+/* line 165, ../sass/screen.scss */
+#connection #routes {
+  color: #efefef;
+  background: url("../../img/black-Linen.png");
+  -webkit-box-shadow: inset -8px -8px 16px black;
+  -moz-box-shadow: inset -8px -8px 16px black;
+  box-shadow: inset -8px -8px 16px black;
+  -webkit-box-shadow: 0 1px 16px #444444;
+  -moz-box-shadow: 0 1px 16px #444444;
+  box-shadow: 0 1px 16px #444444;
+  -webkit-border-radius: 0 0 8px 8px;
+  -moz-border-radius: 0 0 8px 8px;
+  -ms-border-radius: 0 0 8px 8px;
+  -o-border-radius: 0 0 8px 8px;
+  border-radius: 0 0 8px 8px;
+  padding: 5px;
+  text-align: center;
+  display: none;
+  position: fixed;
+}
+/* line 175, ../sass/screen.scss */
+#connection #routes input {
+  width: 150px;
+  margin: 2px;
 }
 
 /*****
 D3 STYLES
 *****/
-/* line 166, ../sass/screen.scss */
+/* line 188, ../sass/screen.scss */
 line.link {
   fill: none;
   stroke-width: 1.5px;
@@ -222,40 +249,40 @@ line.link {
   z-index: -10;
 }
 
-/* line 173, ../sass/screen.scss */
+/* line 195, ../sass/screen.scss */
 g.node {
   position: relative;
   z-index: 5;
 }
 
-/* line 178, ../sass/screen.scss */
+/* line 200, ../sass/screen.scss */
 g.node:hover {
   cursor: pointer;
 }
 
-/* line 182, ../sass/screen.scss */
+/* line 204, ../sass/screen.scss */
 div#bottom {
   text-align: center;
   width: 350px;
   margin: 0px auto;
 }
-/* line 183, ../sass/screen.scss */
+/* line 205, ../sass/screen.scss */
 div#bottom a {
   display: inline-block;
 }
-/* line 187, ../sass/screen.scss */
+/* line 209, ../sass/screen.scss */
 div#bottom img {
   margin: 10px auto;
   width: 100px;
   height: 100px;
 }
-/* line 192, ../sass/screen.scss */
+/* line 214, ../sass/screen.scss */
 div#bottom div#links {
   width: 200;
   margin: 10px auto;
 }
 
-/* line 198, ../sass/screen.scss */
+/* line 220, ../sass/screen.scss */
 div#help {
   margin: 0px auto;
   text-align: center;
