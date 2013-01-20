@@ -1,4 +1,5 @@
 $(document).ready(function() {
+	$('#search').focus();
 	var graph;
 	$("#david").tooltip({
 	   'title': 'David Hu, <font color="#1f8f92">@octopi</font>',
@@ -86,16 +87,38 @@ $(document).ready(function() {
 				var r = JSON.parse(result);
 				if(r.length > 0) {
 					newGraph(user1, r);
+				} else {
+					$('#routes').effect('shake', {times: 4, distance:5}, 200);
 				}
 			});
 		}
 	});
 
+	// return to home state
+	$('h1').click(function() {
+		$('#chart').html('').animate({opacity: 0}, 400, function() { $(this).css('visibility', 'hidden'); });
+		$('#top').animate({
+			marginTop: '10%'
+		}, 400);
+		$('#boundingbox').animate({
+			marginTop: '0px'
+		}, 400);
+		$('#highscores table').hide('slide', {direction: 'up'}, 400);
+		globalShowing = false;
+		$('#routes').hide('slide', {direction: 'up'}, 250); // just in case
+		connectionShowing = false;
+		$('#people').css('visibility', 'visible').animate({opacity: 1}, 400);
+		$('#help').css('visibility', 'visible').animate({opacity: 1}, 400);
+		loadingToMag();
+		$('#search').val('').focus();
+	});	
+
 	function newGraph(user, forcedNodes) {
 		magToLoading();
+		$('#people').animate({opacity: 0}, 400, function() { $(this).css('visibility', 'hidden'); });
 		$('#help').animate({opacity: 0}, 400, function() { $(this).css('visibility', 'hidden'); });
 		$('#boundingbox').animate({
-			marginTop: '350px'
+			marginTop: '150px'
 		}, 400);
 		$('#search').val(user);
 		$('#highscores table').hide('slide', {direction: 'up'}, 400);
@@ -106,7 +129,7 @@ $(document).ready(function() {
 		$('#top').animate({
 			marginTop: '2%'
 		}, 400, function() { console.log('done'); });
-		$('#chart').fadeIn(400, function() {
+		$('#chart').css('visibility', 'visible').animate({opacity: 1}, 400, function() {
 			graph = new myGraph("#chart");
 			console.log(forcedNodes);
 			if(forcedNodes !== undefined) {

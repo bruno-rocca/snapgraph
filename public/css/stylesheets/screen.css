@@ -34,7 +34,7 @@ body {
   -o-border-radius: 44px;
   border-radius: 44px;
   margin: 0 auto;
-  margin-top: 17%;
+  margin-top: 10%;
   -webkit-box-shadow: #555555 1px 1px 2px;
   -moz-box-shadow: #555555 1px 1px 2px;
   box-shadow: #555555 1px 1px 2px;
@@ -57,9 +57,14 @@ h1 {
 }
 
 /* line 48, ../sass/screen.scss */
-h1#sub {
+h1:hover {
+  cursor: pointer;
+}
+
+/* line 52, ../sass/screen.scss */
+h2#sub {
   font-family: "Ubuntu";
-  font-size: 80px;
+  font-size: 64px;
   margin: 0;
   color: #BFAEB5;
   margin-left: 20px;
@@ -68,13 +73,12 @@ h1#sub {
   display: inline;
 }
 
-/* line 59, ../sass/screen.scss */
-#subtext {
+/* line 63, ../sass/screen.scss */
+.subtext {
   font-size: 18px;
-  padding-bottom: 30px;
 }
 
-/* line 64, ../sass/screen.scss */
+/* line 67, ../sass/screen.scss */
 #search {
   width: 330px;
   margin-top: 5px;
@@ -84,7 +88,7 @@ h1#sub {
   border-radius: 20px;
 }
 
-/* line 73, ../sass/screen.scss */
+/* line 76, ../sass/screen.scss */
 .topbutton {
   position: relative;
   top: 3px;
@@ -103,19 +107,19 @@ h1#sub {
   border-radius: 1000px;
 }
 
-/* line 85, ../sass/screen.scss */
+/* line 88, ../sass/screen.scss */
 .topbutton:hover {
   cursor: pointer;
 }
 
-/* line 89, ../sass/screen.scss */
+/* line 92, ../sass/screen.scss */
 #main {
   width: 960px;
   height: 75px;
   margin: 0px auto;
 }
 
-/* line 95, ../sass/screen.scss */
+/* line 98, ../sass/screen.scss */
 .rounded, #chart {
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
@@ -127,17 +131,18 @@ h1#sub {
   box-shadow: #aaaaaa -1px -1px 7px inset;
 }
 
-/* line 100, ../sass/screen.scss */
+/* line 103, ../sass/screen.scss */
 #chart {
   background: #fafafa;
   width: 650px;
   height: 500px;
   margin: 0 auto;
   margin-top: 50px;
-  display: none;
+  visibility: hidden;
+  opacity: 0;
 }
 
-/* line 110, ../sass/screen.scss */
+/* line 114, ../sass/screen.scss */
 #graphbg {
   position: fixed;
   bottom: -270px;
@@ -145,7 +150,7 @@ h1#sub {
   z-index: -1;
 }
 
-/* line 117, ../sass/screen.scss */
+/* line 121, ../sass/screen.scss */
 #tooltip {
   background: #444;
   color: #fafafa;
@@ -163,14 +168,21 @@ h1#sub {
   display: none;
 }
 
-/* line 128, ../sass/screen.scss */
+/* line 132, ../sass/screen.scss */
 .black {
   width: 400px;
   margin: 0 auto;
   position: relative;
 }
 
-/* line 135, ../sass/screen.scss */
+/* line 138, ../sass/screen.scss */
+.smalltext {
+  font-weight: normal;
+  font-size: 12px;
+  margin: 0;
+}
+
+/* line 145, ../sass/screen.scss */
 #highscores table {
   -webkit-box-shadow: inset -8px -8px 16px black;
   -moz-box-shadow: inset -8px -8px 16px black;
@@ -189,31 +201,32 @@ h1#sub {
   -o-border-radius: 0 0 8px 8px;
   border-radius: 0 0 8px 8px;
 }
-/* line 144, ../sass/screen.scss */
+/* line 154, ../sass/screen.scss */
 #highscores table thead {
   font-weight: bold;
 }
-/* line 147, ../sass/screen.scss */
+/* line 157, ../sass/screen.scss */
 #highscores table tr.zebra1 {
   background: rgba(255, 255, 255, 0.1);
 }
-/* line 150, ../sass/screen.scss */
+/* line 160, ../sass/screen.scss */
 #highscores table tr:hover {
   cursor: pointer;
   background: rgba(255, 255, 255, 0.2);
 }
-/* line 154, ../sass/screen.scss */
+/* line 164, ../sass/screen.scss */
 #highscores table .nohover:hover {
   cursor: inherit;
   background: none;
 }
-/* line 158, ../sass/screen.scss */
+/* line 168, ../sass/screen.scss */
 #highscores table td {
   padding: 10px;
 }
 
-/* line 165, ../sass/screen.scss */
+/* line 175, ../sass/screen.scss */
 #connection #routes {
+  width: 400px;
   color: #efefef;
   background: url("../../img/black-Linen.png");
   -webkit-box-shadow: inset -8px -8px 16px black;
@@ -232,7 +245,7 @@ h1#sub {
   display: none;
   position: fixed;
 }
-/* line 175, ../sass/screen.scss */
+/* line 186, ../sass/screen.scss */
 #connection #routes input {
   width: 150px;
   margin: 2px;
@@ -241,7 +254,7 @@ h1#sub {
 /*****
 D3 STYLES
 *****/
-/* line 188, ../sass/screen.scss */
+/* line 199, ../sass/screen.scss */
 line.link {
   fill: none;
   stroke-width: 1.5px;
@@ -249,41 +262,42 @@ line.link {
   z-index: -10;
 }
 
-/* line 195, ../sass/screen.scss */
+/* line 206, ../sass/screen.scss */
 g.node {
   position: relative;
   z-index: 5;
 }
 
-/* line 200, ../sass/screen.scss */
+/* line 211, ../sass/screen.scss */
 g.node:hover {
   cursor: pointer;
 }
 
-/* line 204, ../sass/screen.scss */
+/* line 215, ../sass/screen.scss */
 div#bottom {
   text-align: center;
   width: 350px;
   margin: 0px auto;
 }
-/* line 205, ../sass/screen.scss */
+/* line 216, ../sass/screen.scss */
 div#bottom a {
   display: inline-block;
 }
-/* line 209, ../sass/screen.scss */
+/* line 220, ../sass/screen.scss */
 div#bottom img {
   margin: 10px auto;
   width: 100px;
   height: 100px;
 }
-/* line 214, ../sass/screen.scss */
+/* line 225, ../sass/screen.scss */
 div#bottom div#links {
   width: 200;
   margin: 10px auto;
 }
 
-/* line 220, ../sass/screen.scss */
+/* line 231, ../sass/screen.scss */
 div#help {
   margin: 0px auto;
   text-align: center;
+  margin-bottom: 40px;
 }

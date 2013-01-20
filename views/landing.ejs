@@ -33,6 +33,7 @@
 	</div>
 	<div id="connection" class="black">
 		<div id="routes">
+			<p class="smalltext">Explore direct connections between Snapchat friends. Enter two people, and we'll tell you if there appears to be a connection.</p>
 			<input class="route" type="text" id="route1" />
 			<i class="icon-arrow-right"></i>
 			<input class="route" type="text" id="route2" />
@@ -41,6 +42,9 @@
 	<div id="highscores" class="black">
 		<table style="display:none;">
 			<thead>
+				<tr class="smalltext nohover">
+					<td colspan="2">Below is our global record of people who have the highest scores on Snapchat. Help us populate it by exploring more!</td>
+				</tr>
 				<tr class="nohover">
 					<td>Name</td>
 					<td>HISCORE</td>
@@ -57,37 +61,38 @@
 	</div>
 
 	<div id="help">
-		<h1 id="sub"> Explore your Snapchat network </h1>
-		<p id="subtext">Enter your Snapchat username to see your best friends!</p>
+		<h2 id="sub" class="nohover"> Explore your Snapchat network </h2>
+		<p class="subtext">Enter your Snapchat username to see your best friends</p>
+		<p class="subtext">Then click friends to explore relationships</p>
 	</div>
 
 	<div id="boundingbox">
 
-	<div id="bottom">
+		<div id="bottom">
+			<div id="people">
+				<a id="david" target="_blank" href="http://twitter.com/octopi" rel="tooltip">
+					<img src="../img/david.jpg" class="img-circle" />
+				</a>
 
-		<a id="david" target="_blank" href="http://twitter.com/octopi" rel="tooltip">
-			<img src="../img/david.jpg" class="img-circle" />
-		</a>
+				<a id="jasdev" target="_blank" href="http://twitter.com/justdavesingh" rel="tooltip">
+					<img src="../img/jasdev.png" class="img-circle" />
+				</a>
 
-		<a id="jasdev" target="_blank" href="http://twitter.com/justdavesingh" rel="tooltip">
-			<img src="../img/jasdev.png" class="img-circle" />
-		</a>
+				<a id="nishant" target="_blank" href="http://twitter.com/binroo" rel="tooltip">
+					<img src="../img/nishant.jpg" class="img-circle" />
+				</a>
 
-		<a id="nishant" target="_blank" href="http://twitter.com/binroo" rel="tooltip">
-			<img src="../img/nishant.jpg" class="img-circle" />
-		</a>
+				<p>A <a href="http://2013s.pennapps.com/" target="_blank">PennApps</a> Spring 2013 Hack</p>
+			</div>
+			<div id="links">
+				<a href="https://github.com/Jasdev/snapgraph/wiki/Documentation" target="_blank">API</a>
+				&middot;
+				<a href="http://github.com/Jasdev/snapgraph" target="_blank">GitHub</a>	
+			</div>
+			
 
-		<p>A <a href="http://2013s.pennapps.com/" target="_blank">PennApps</a> Spring 2013 Hack</p>
-
-		<div id="links">
-			<a href="https://github.com/Jasdev/snapgraph/wiki/Documentation" target="_blank">API</a>
-			&middot;
-			<a href="http://github.com/Jasdev/snapgraph" target="_blank">GitHub</a>	
 		</div>
-		
-
 	</div>
-</div>
 	<img src="../img/graphs.png" id="graphbg" />
 	<script type="text/javascript">
 

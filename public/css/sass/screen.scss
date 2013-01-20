@@ -27,7 +27,7 @@ body {
 	vertical-align: middle;
 	@include border-radius(44px);
 	margin:0 auto;
-	margin-top:17%;
+	margin-top:10%;
 	@include box-shadow(#555 1px 1px 2px);
 	input {
 		padding-left:10px;
@@ -45,9 +45,13 @@ h1 {
 	display: inline;
 }
 
-h1#sub {
+h1:hover {
+	cursor: pointer;
+}
+
+h2#sub {
 	font-family: "Ubuntu";
-	font-size:80px;
+	font-size:64px;
 	margin:0;
 	color:#BFAEB5;
 	margin-left:20px;
@@ -56,9 +60,8 @@ h1#sub {
 	display: inline;
 }
 
-#subtext{
+.subtext{
 	font-size:18px;
-	padding-bottom: 30px;
 }
 
 #search {
@@ -104,7 +107,8 @@ h1#sub {
 	height:500px;
 	margin:0 auto;
 	margin-top:50px;
-	display:none;
+	visibility:hidden;
+	opacity:0;
 }
 
 #graphbg {
@@ -129,6 +133,12 @@ h1#sub {
 	width:400px;
 	margin:0 auto;
 	position: relative;
+}
+
+.smalltext {
+	font-weight:normal;
+	font-size:12px;
+	margin:0;
 }
 
 #highscores {
@@ -163,6 +173,7 @@ h1#sub {
 
 #connection {
 	#routes {
+		width:400px;
 		color:#efefef;
 		background:url('../../img/black-Linen.png');
 		@include box-shadow(inset -8px -8px 16px #000);
@@ -176,7 +187,7 @@ h1#sub {
 			width:150px;
 			margin:2px;
 		}
-		
+
 	}
 }
 
@@ -220,4 +231,5 @@ div#bottom{
 div#help{
 	margin: 0px auto;
 	text-align: center;
+	margin-bottom:40px;
 }
