@@ -184,8 +184,8 @@
 							url: 'getuser?u=' + name
 						}).done(function(result) {
 							console.log('DONE', result);
-							for(var i = 0; i < result.friends.length; i++) {
-								var f = result.friends[i].name;
+							for(var i = 0; i < result.children.length; i++) {
+								var f = result.children[i].name;
 								graph.addNode(f);
 								graph.addLink(name, f);
 							}
