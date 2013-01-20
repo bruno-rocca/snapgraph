@@ -97,12 +97,8 @@
 					    var force = d3.layout.force()
 					        .gravity(.05)
 					        .distance(function(d) {
-					        	var dist = 120;
-					        	if(d.source.attraction[d.target.id] !== undefined)
-					        		dist -= d.source.attraction[d.target.id];
-					        	if(d.target.attraction[d.source.id] !== undefined)
-					        		dist -= d.target.attraction[d.source.id];
-					        	console.log('DIST', dist, d.source.attraction[d.target.id], d.target.attraction[d.source.id]);
+					        	// calculate distance based on sum of their attractions
+					        	var dist = 120 - attractionSum(d);
 					        	return dist > 40 ? dist : 40; })
 					        .charge(-500)
 					        .size([w, h]);
@@ -116,7 +112,15 @@
 					            .data(links, function(d) { return d.source.id + "-" + d.target.id; });
 
 					        link.enter().insert("line")
-					            .attr("class", "link");
+					            .attr("class", "link")
+					            .style("stroke", function(d) {
+					            	var sum = attractionSum(d);
+					            	return d3.rgb(158+2*sum, 202-sum, 225-2*sum);
+					            })
+					            .style("stroke-width", function(d) {
+					            	var sum = attractionSum(d);
+					            	return 2 + (sum/20);
+					            });
 
 					        link.exit().remove();
 
@@ -157,15 +161,20 @@
 					        });
 
 					        node.order();
-					   //      force
-								// .gravity(.05)
-								// .distance(100)
-								// .charge(function() { return Math.random()*-100})
-								// .size([w, h]);
+
 					        // Restart the force layout.
 					        force.start();
 
 
+					    }
+
+					    function attractionSum(d) {
+					    	var sum = 0;
+					    	if(d.source.attraction[d.target.id] !== undefined)
+					    		sum += d.source.attraction[d.target.id];
+					    	if(d.target.attraction[d.source.id] !== undefined)
+					    		sum += d.target.attraction[d.source.id];
+					    	return sum;
 					    }
 
 					    function fetchTwitterImg(selection) {
