@@ -83,6 +83,10 @@ app.get('/refreshgraph', function(req, res){
   }
 });
 
+/** LEADERBOARD
+*   Client: None
+*   Server: JSON Array containing top 10 results from DB sorted descending by score
+*/
 app.get('/leaderboard', function(req, res){
   db.leaderboard(function(users){
     res.send(users);
