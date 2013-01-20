@@ -1,4 +1,5 @@
 $(document).ready(function() {
+	var graph;
 	$("#david").tooltip({
 	   'title': 'David Hu, <font color="#1f8f92">@octopi</font>',
 	   'html': true,
@@ -70,7 +71,7 @@ $(document).ready(function() {
 			marginTop: '2%'
 		}, 400, function() { console.log('done'); });
 		$('#chart').fadeIn(400, function() {
-			var graph = new myGraph("#chart");
+			graph = new myGraph("#chart");
 			addToGraph(graph, user);
 		});
 	}
@@ -98,14 +99,13 @@ $(document).ready(function() {
 				}
 			}
 		});
-
-		// clicking node shows more
-		$(document).on('click', 'g', function(e) {
-			magToLoading();
-			addToGraph(graph, e.currentTarget.__data__.id);
-			$('#search').val(e.currentTarget.__data__.id);
-		});
 	}
+	// clicking node shows more
+	$(document).on('click', 'g', function(e) {
+		magToLoading();
+		addToGraph(graph, e.currentTarget.__data__.id);
+		$('#search').val(e.currentTarget.__data__.id);
+	});
 
 
 	function magToLoading() {
