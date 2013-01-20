@@ -189,28 +189,31 @@ D3 STYLES
 /* line 144, ../sass/screen.scss */
 line.link {
   fill: none;
-  stroke: #9ecae1;
   stroke-width: 1.5px;
   position: relative;
   z-index: -10;
 }
 
-/* line 152, ../sass/screen.scss */
+/* line 151, ../sass/screen.scss */
 g.node {
   position: relative;
   z-index: 5;
 }
 
-/* line 157, ../sass/screen.scss */
+/* line 156, ../sass/screen.scss */
 g.node:hover {
   cursor: pointer;
 }
 
-/* line 161, ../sass/screen.scss */
+/* line 160, ../sass/screen.scss */
 div#bottom {
   text-align: center;
   width: 350px;
   margin: 0px auto;
+}
+/* line 161, ../sass/screen.scss */
+div#bottom a {
+  display: inline-block;
 }
 /* line 165, ../sass/screen.scss */
 div#bottom img {

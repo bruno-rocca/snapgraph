@@ -143,7 +143,6 @@ D3 STYLES
 
 line.link {
 	fill: none;
-	stroke: #9ecae1;
 	stroke-width: 1.5px;
 	position:relative;
 	z-index:-10;
@@ -159,6 +158,7 @@ g.node:hover {
 }
 
 div#bottom{
+	a { display: inline-block; }
 	text-align: center;
 	width: 350px;
 	margin: 0px auto;
