@@ -229,7 +229,7 @@ var done = false;
 
 var tranverse = function(retrace, u2, u1, p) {
     if(u2 == u1) {
-	return p;
+	return p.reverse();
     }
     
     for(var i=0; i<retrace[u2].length; i++) {
