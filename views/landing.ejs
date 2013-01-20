@@ -16,6 +16,7 @@
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="../js/graph.js"></script>
+	<script type="text/javascript" src="../js/bootstrap.js"></script>
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
@@ -32,12 +33,51 @@
 		<div id="tooltip" style="position:absolute;">octopi</div>
 		<div id="chart"></div>
 	</div>
-	<div id="bottom"></div>
+
+
+
+	<div id="bottom">
+
+		<a id="david" target="_blank" href="http://twitter.com/octopi" rel="tooltip">
+			<img src="../img/david.jpg" class="img-circle" />
+		</a>
+
+		<a id="jasdev" target="_blank" href="http://twitter.com/justdavesingh" rel="tooltip">
+			<img src="../img/jasdev.png" class="img-circle" />
+		</a>
+
+		<a id="nishant" target="_blank" href="http://twitter.com/binroo" rel="tooltip">
+			<img src="../img/nishant.jpg" class="img-circle" />
+		</a>
+
+		<div id="links">
+			<a href="http://github.com/Jasdev/snapgraph" target="_blank">GitHub</a>
+			&middot;
+			<a href="https://github.com/Jasdev/snapgraph/wiki/Documentation" target="_blank">Wiki</a>	
+		</div>
+		
+
+	</div>
 	<img src="../img/graphs.png" id="graphbg" />
+
 
 	<script>
 
 	$(document).ready(function() {
+		$("#david").tooltip({
+		   'title': 'David Hu, @octopi',
+		   'placement': 'left'
+		 });
+
+		$("#nishant").tooltip({
+		   'title': 'Nishant Shukla, @binroo',
+		   'placement': 'right'
+		 });
+
+		$("#jasdev").tooltip({
+		   'title': 'Jasdev Singh, @justdavesingh',
+		   'placement': 'top'
+		 });
 
 		// tooltip always follows mouse
 		$('body').mousemove(function(e) {

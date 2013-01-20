@@ -93,7 +93,7 @@ h1 {
 /* line 73, ../sass/screen.scss */
 #main {
   width: 960px;
-  height: 600px;
+  height: 200px;
   margin: 0px auto;
 }
 
@@ -203,4 +203,26 @@ g.node {
 /* line 156, ../sass/screen.scss */
 g.node:hover {
   cursor: pointer;
+}
+
+/* line 160, ../sass/screen.scss */
+div#bottom {
+  text-align: center;
+  width: 350px;
+  margin: 0px auto;
+}
+/* line 161, ../sass/screen.scss */
+div#bottom a {
+  display: inline-block;
+}
+/* line 165, ../sass/screen.scss */
+div#bottom img {
+  margin: 0px auto;
+  width: 100px;
+  height: 100px;
+}
+/* line 170, ../sass/screen.scss */
+div#bottom div#links {
+  width: 200;
+  margin: 10px auto;
 }
