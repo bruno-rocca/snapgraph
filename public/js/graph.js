@@ -86,11 +86,11 @@ function myGraph(el) {
             // .attr("cx", function(d) { return d.x + Math.random()*100; })
             // .attr("cy", function(d) { return d.y; })
             .attr("r", 30)
-            .style("fill", "#9b2826")
-            .style('stroke-width', 2.5)
-            .style('stroke', function(d) {
-                return d.clicked ? "#333" : "#9b2826";
-            });
+            .style("fill", function(d) {
+                return d.clicked ? "#000" : "#9b2826";
+            })
+            .style('stroke-width', 2.5);
+            //.style('stroke', );
 
         node.append("svg:image")
             .attr('xlink:href', '../img/snapchat.jpg')
