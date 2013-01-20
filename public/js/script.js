@@ -24,6 +24,16 @@ $(document).ready(function() {
 		$('#tooltip').css({'top': e.clientY + 20, 'left': e.clientX});
 	});
 
+	// escape exits the things
+	$('body').keyup(function(e) {
+		if(e.which === 27) {
+			$('#highscores table').hide('slide', {direction: 'up'}, 400);
+			globalShowing = false;
+			$('#routes').hide('slide', {direction: 'up'}, 250); // just in case
+			connectionShowing = false;
+		}
+	});
+
 	// clicking the globe shows
 	var globalShowing = false;
 	var connectionShowing = false;
