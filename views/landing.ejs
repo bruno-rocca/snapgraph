@@ -5,7 +5,7 @@
   	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   	<meta name="author" content="David Hu">
 
-  	<title>d3test</title>
+  	<title>snapgraph</title>
 	<link rel="stylesheet" href="../css/bootstrap.css" />
 	<link rel="stylesheet" href="../fortawesome/css/font-awesome.min.css" />
 	<link href="../css/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" />
@@ -14,16 +14,18 @@
 	<link href='http://fonts.googleapis.com/css?family=Grand+Hotel' rel='stylesheet' type='text/css'>
 	<script src="http://d3js.org/d3.v3.min.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="../js/graph.js"></script>
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
 </head>
 <body>
+	<a href="https://github.com/Jasdev/snapgraph/wiki/Documentation"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
 	<div id="top">
 		<h1>snapgraph</h1>
+		<div id="searchStatus" class="icon-search" style="position:relative;left:30px;top:-3px;"></div>
 		<input type="text" id="search" />
-		<div class="icon-search" style="position:relative;right:35px;top:-3px;"></div>
 		<i class="icon-globe icon-2x" id="globe"></i>
 	</div>
 	<div id="main">
@@ -43,145 +45,206 @@
 
 		$('#search').keypress(function(e) {
 			if(e.which === 13) {
-				console.log('yo');
+				$('#searchStatus').attr('class', '');
+				$('#searchStatus').addClass('icon-repeat');
+				$('#searchStatus').addClass('icon-spin');
+				$('#chart').html('');
 				$('#top').animate({
 					marginTop: '2%'
 				}, 400, function() { console.log('done'); });
 				$('#chart').fadeIn(400, function() {
-					// START D3 SHIT
-					var w = 650,
-					    h = 500,
-					    node,
-					    link,
-					    root,
-					    colorscale = d3.scale.category10();
+					function myGraph(el) {
 
-					var force = d3.layout.force()
-					    .on("tick", tick)
-					    .charge(function(d) { return d._children ? -d.size : -30; })
-					    //.linkDistance(function(d) { return d.target._children ? 80 : 30; })
-					    .linkDistance(400)
-					    .size([w, h]);
+					    // Add and remove elements on the graph object
+					    this.addNode = function (id) {
+					        nodes.push({"id":id, "attraction": {} });
+					        update();
+					    }
 
-					var vis = d3.select("#chart").append("svg")
-					    .attr("width", w)
-					    .attr("height", h);
+					    this.removeNode = function (id) {
+					        var i = 0;
+					        var n = findNode(id);
+					        while (i < links.length) {
+					            if ((links[i]['source'] == n)||(links[i]['target'] == n)) links.splice(i,1);
+					            else i++;
+					        }
+					        nodes.splice(findNodeIndex(id),1);
+					        update();
+					    }
 
-					d3.json("getuser?u=" + $('#search').val(), function(json) {
-					  root = json;
-					  root.fixed = true;
-					  root.x = w / 2;
-					  root.y = h / 2;
-					  update();
-					});
+					    this.addLink = function (source, target, strength) {
+					        links.push({"source":findNode(source),"target":findNode(target)});
+					        findNode(source).attraction[target] = strength*2.4;
+					        update();
+					    }
 
-					function update() {
-						var nodes = flatten(root),
-						  links = d3.layout.tree().links(nodes);
+					    var findNode = function(id) {
+					        for (var i in nodes) {if (nodes[i]["id"] === id) return nodes[i]};
+					    }
 
-						// Restart the force layout.
-						force
-						  .nodes(nodes)
-						  .links(links)
-						  .charge(-500)
-						  .start();
+					    var findNodeIndex = function(id) {
+					        for (var i in nodes) {if (nodes[i]["id"] === id) return i};
+					    }
 
-						// Update the links…
-						link = vis.selectAll("line.link")
-						  .data(links, function(d) { return d.target.id; });
+					    // set up the D3 visualisation in the specified element
+					    var w = $(el).innerWidth(),
+					        h = $(el).innerHeight();
 
-						// Enter any new links.
-						link.enter().insert("line", ".node")
-						  .attr("class", "link")
-						  .attr("x1", function(d) { return d.source.x; })
-						  .attr("y1", function(d) { return d.source.y; })
-						  .attr("x2", function(d) { return d.target.x; })
-						  .attr("y2", function(d) { return d.target.y; });
+					    var vis = this.vis = d3.select(el).append("svg:svg")
+					        .attr("width", w)
+					        .attr("height", h);
 
-						// Exit any old links.
-						link.exit().remove();
+					    var force = d3.layout.force()
+					        .gravity(.05)
+					        .distance(function(d) {
+					        	// calculate distance based on sum of their attractions
+					        	var dist = 120 - attractionSum(d);
+					        	return dist > 40 ? dist : 40; })
+					        .charge(-500)
+					        .size([w, h]);
 
-						// Update the nodes…
-						node = vis.selectAll("circle.node")
-						  .data(nodes, function(d) { return d.id; })
-						  .style("fill", color);
+					    var nodes = force.nodes(),
+					        links = force.links();
 
-						node.transition()
-						  .attr("r", function(d) { return d.friends ? 4.5 : d.size; });
+					    var update = function () {
 
-						// Enter any new nodes.
-						node.enter().append("svg:image")
-						  .attr("xlink:href", "../img/snapchat.jpg")
-						  .attr("width", 50)
-						  .attr("height", 50)
-						  .attr("class", "node")
-						  .attr("x", function(d) { return d.x; })
-						  .attr("y", function(d) { return d.y; })
-						  .style("fill", color)
-						  .on("mouseover", mouseover)
-						  .on("mouseout", mouseout)
-						  .call(fetchTwitterImg)
-						  .call(force.drag);
+					    	var link = vis.selectAll("line.link")
+					            .data(links, function(d) { return d.source.id + "-" + d.target.id; });
 
-						// Exit any old nodes.
-						node.exit().remove();
+					        link.enter().insert("line")
+					            .attr("class", "link")
+					            .style("stroke", function(d) {
+					            	var sum = attractionSum(d);
+					            	return d3.rgb(158+2*sum, 202-sum, 225-2*sum);
+					            })
+					            .style("stroke-width", function(d) {
+					            	var sum = attractionSum(d);
+					            	return 2 + (sum/20);
+					            });
+
+					        link.exit().remove();
+
+					        var node = vis.selectAll("g.node")
+					            .data(nodes, function(d) { return d.id;});
+
+					        var nodeEnter = node.enter().append("g")
+					            .attr("class", "node")
+								.on("mouseover", mouseover)
+								.on("mouseout", mouseout)
+					            .call(force.drag);
 
 
-						function fetchTwitterImg(selection) {
+					        node.append("circle")
+								// .attr("cx", function(d) { return d.x + Math.random()*100; })
+								// .attr("cy", function(d) { return d.y; })
+								.attr("r", 30)
+								.style("fill", "#930");
+
+							node.append("svg:image")
+								.attr('xlink:href', '../img/snapchat.jpg')
+								.attr("width", 36)
+								.attr("height", 36)
+								.attr("x", -18)
+								.attr("y", -18)
+								.call(fetchTwitterImg);
+
+
+					        node.exit().remove();
+
+					        force.on("tick", function() {
+					        	
+								node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+					        	link.attr("x1", function(d) { return d.source.x; })
+					        		.attr("y1", function(d) { return d.source.y; })
+					        		.attr("x2", function(d) { return d.target.x; })
+					        		.attr("y2", function(d) { return d.target.y; });
+					        });
+
+					        node.order();
+
+					        // Restart the force layout.
+					        force.start();
+
+
+					    }
+
+					    function attractionSum(d) {
+					    	var sum = 0;
+					    	if(d.source.attraction[d.target.id] !== undefined)
+					    		sum += d.source.attraction[d.target.id];
+					    	if(d.target.attraction[d.source.id] !== undefined)
+					    		sum += d.target.attraction[d.source.id];
+					    	return sum;
+					    }
+
+					    function fetchTwitterImg(selection) {
 						  	var users = selection[0];
 						  	for(var i = 0; i < users.length; i++) {
 						  		// if always runs, that means we got an image back so we the node's image 
-					  			var username = users[i].__data__.name || users[i].__data__['_id'];
-					  			$.ajax({
-				  			        url:'https://api.twitter.com/1/users/profile_image?screen_name='+username+'&size=bigger',
-				  			        crossDomain: true,
-				  			        dataType: 'jsonp'
-				  			    }).always(function(eye, usrnm) { 
-				  			    	return function(a, b) {
-					  			        users[eye].href.baseVal = 'https://api.twitter.com/1/users/profile_image?screen_name='+usrnm+'&size=bigger';
-					  			    }
-					  			}(i, username));
+						  		var currUser = users[i];
+						  		if(currUser !== null) {
+						  			var username = users[i].__data__.id;
+						  			console.log('username is', username);	
+						  			$.ajax({
+					  			        url:'https://api.twitter.com/1/users/profile_image?screen_name='+username+'&size=bigger',
+					  			        crossDomain: true,
+					  			        dataType: 'jsonp'
+					  			    }).always(function(eye, usrnm) { 
+					  			    	return function(a, b) {
+						  			        users[eye].href.baseVal = 'https://api.twitter.com/1/users/profile_image?screen_name='+usrnm+'&size=bigger';
+						  			    }
+						  			}(i, username));
+						  		}
 							}
 						}
+
+					    // Make it all go
+					    update();
 					}
 
-					function tick() {
-						console.log('ticking');
-					  link.attr("x1", function(d) { return d.source.x; })
-					      .attr("y1", function(d) { return d.source.y; })
-					      .attr("x2", function(d) { return d.target.x; })
-					      .attr("y2", function(d) { return d.target.y; });
+					var graph = new myGraph("#chart");
+					var user = $('#search').val();
+					addToGraph(graph, user);
 
-					  node.attr("x", function(d) { return d.x; })
-					      .attr("y", function(d) { return d.y; });
-					}
+					function addToGraph(graph, name) {
+						$.ajax({
+							url: 'getuser?u=' + name
+						}).done(function(result) {
+							console.log('DONE', result);
+							$('#searchStatus').attr('class', '');
+							$('#searchStatus').addClass('icon-search');
 
-					// Color leaf nodes orange, and packages white or blue.
-					function color(d) {
-					//  return d._children ? "#3182bd" : d.friends ?  : "#fd8d3c";
-					  return d._children ? "#3182bd" : d.friends ? "#c6dbef" : colorscale(d.size);
-					}
+							if(result.error) {
+								$('#top').effect('shake', {times: 4, distance:5}, 200);
+							}
+							if(result.children.length === 0) {
+								graph.addNode(name);						
+							} else {
+								for(var i = 0; i < result.children.length; i++) {
+									var f = result.children[i].name;
 
-					// Toggle friends on click.
-					function click(d) {
-					  if (d.friends) {
-					    d._children = d.friends;
-					    d.friends = null;
-					  } else {
-					    d.friends = d._children;
-					    d._children = null;
-					  }
-					  update();
+									graph.addNode(name);
+									graph.addNode(f);
+									graph.addLink(name, f, result.children[i].score);
+
+								}
+							}
+						});
 					}
+					
+					$(document).on('click', 'g', function(e) {
+						console.log('CLICKED', e, e.currentTarget.__data__.id);
+						addToGraph(graph, e.currentTarget.__data__.id);
+					});
 
 					// show tooltip
 					function mouseover(d) {
 						console.log(d3.select(d));
 						var svg = d3.select(d)[0][0];
-						if(!svg.name) {
+						if(!svg.id) {
 							$('#tooltip').html(svg._id);
 						} else {
-							$('#tooltip').html(svg.name);	
+							$('#tooltip').html(svg.id);	
 						}
 						$('#tooltip').show(0);
 					}
@@ -190,22 +253,7 @@
 					function mouseout(d) {
 						$('#tooltip').hide(0);
 					}
-
-					// Returns a list of all nodes under the root.
-					function flatten(root) {
-					  var nodes = [], i = 0;
-
-					  function recurse(node) {
-					    if (node.friends) node.size = node.friends.reduce(function(p, v) { return p + recurse(v); }, 0);
-					    if (!node.id) node.id = ++i;
-					    nodes.push(node);
-					    return node.size;
-					  }
-
-					  root.size = recurse(root);
-					  console.log('returning nodes:', nodes);
-					  return nodes;
-					}
+										
 				});
 				e.preventDefault();
 			}
