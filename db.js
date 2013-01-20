@@ -227,6 +227,16 @@ var getGlobal = function(u1, u2, fun) {
 
 var done = false;
 
+var tranverse = function(retrace, u2, u1, p) {
+    if(u2 == u1) {
+	return p;
+    }
+    
+    for(var i=0; i<retrace[u2].length; i++) {
+	return tranverse(retrace, retrace[u2][i], u1, p.concat([ retrace[u2][i] ]));
+    }
+}
+
 var findB = function (u1, u2) {
 
     var cache = [];
@@ -244,13 +254,7 @@ var findB = function (u1, u2) {
 		console.log('done!');
 		console.log('retrace: '+JSON.stringify(retrace));
 
-		var path = [u2];
-
-		var t2 = u2;
-		while(t2 != u1) {
-		    t2 = retrace[t2];
-		    path.push(t2);
-		}
+		var path = tranverse(retrace, u2, u1, [u2]);
 
 		return path;
 	    }
@@ -267,7 +271,12 @@ var findB = function (u1, u2) {
 	    if(u1Obj) {
 		for(var i=0; i<u1Obj.children.length; i++) {
 		    queue.push( u1Obj.children[i].name );
-		    retrace[ u1Obj.children[i].name ] = u1Obj._id;
+		    
+		    if(!retrace[ u1Obj.children[i].name ]) {
+			retrace[ u1Obj.children[i].name ] = [];
+		    }
+
+		    retrace[ u1Obj.children[i].name ].push(u1Obj._id);
 		}
 	    }
 	    

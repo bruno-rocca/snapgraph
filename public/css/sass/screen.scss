@@ -45,6 +45,22 @@ h1 {
 	display: inline;
 }
 
+h1#sub {
+	font-family: "Ubuntu";
+	font-size:80px;
+	margin:0;
+	color:#BFAEB5;
+	margin-left:20px;
+	line-height: 90px;
+	@include text-shadow(#444 1px 1px 2px);
+	display: inline;
+}
+
+#subtext{
+	font-size:18px;
+	padding-bottom: 30px;
+}
+
 #search {
 	width:330px;
 	margin-top: 5px;
@@ -72,7 +88,7 @@ h1 {
 
 #main {
 	width: 960px;
-	height: 600px;
+	height: 75px;
 	margin:0px auto;
 }
 
@@ -161,4 +177,25 @@ g.node {
 
 g.node:hover {
 	cursor: pointer;
+}
+
+div#bottom{
+	a { display: inline-block; }
+	text-align: center;
+	width: 350px;
+	margin: 0px auto;
+	img{
+		margin: 10px auto;
+	    width: 100px;
+	    height: 100px;
+	}
+	div#links{
+		width: 200;
+		margin: 10px auto;
+	}
+}
+
+div#help{
+	margin: 0px auto;
+	text-align: center;
 }
