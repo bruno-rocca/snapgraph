@@ -151,6 +151,7 @@ $(document).ready(function() {
 		magToLoading();
 		addToGraph(graph, e.currentTarget.__data__.id);
 		$('#search').val(e.currentTarget.__data__.id);
+	        
 	});
 
 
