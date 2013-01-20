@@ -14,6 +14,7 @@
 	<link href='http://fonts.googleapis.com/css?family=Grand+Hotel' rel='stylesheet' type='text/css'>
 	<script src="http://d3js.org/d3.v3.min.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="../js/graph.js"></script>
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -22,8 +23,8 @@
 <body>
 	<div id="top">
 		<h1>snapgraph</h1>
+		<div id="searchStatus" class="icon-search" style="position:relative;left:30px;top:-3px;"></div>
 		<input type="text" id="search" />
-		<div id="searchStatus" class="icon-search" style="position:relative;right:35px;top:-3px;"></div>
 		<i class="icon-globe icon-2x" id="globe"></i>
 	</div>
 	<div id="main">
@@ -46,6 +47,7 @@
 				$('#searchStatus').attr('class', '');
 				$('#searchStatus').addClass('icon-repeat');
 				$('#searchStatus').addClass('icon-spin');
+				$('#chart').html('');
 				$('#top').animate({
 					marginTop: '2%'
 				}, 400, function() { console.log('done'); });
@@ -187,16 +189,24 @@
 							url: 'getuser?u=' + name
 						}).done(function(result) {
 							console.log('DONE', result);
-							for(var i = 0; i < result.children.length; i++) {
-								var f = result.children[i].name;
-
-								graph.addNode(name);
-								graph.addNode(f);
-								graph.addLink(name, f);
-
-							}
 							$('#searchStatus').attr('class', '');
 							$('#searchStatus').addClass('icon-search');
+
+							if(result.error) {
+								$('#top').effect('shake', {times: 4, distance:5}, 200);
+							}
+							if(result.children.length === 0) {
+								graph.addNode(name);								
+							} else {
+								for(var i = 0; i < result.children.length; i++) {
+									var f = result.children[i].name;
+
+									graph.addNode(name);
+									graph.addNode(f);
+									graph.addLink(name, f);
+
+								}
+							}
 						});
 					}
 					
