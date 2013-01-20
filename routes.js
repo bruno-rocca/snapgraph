@@ -9,7 +9,7 @@ exports.getUser = function(name, res, fun){
                 //Handle any request / parsing errors
                 if (err) this.exit(err);
 
-                //Hard dependency but only reather other way is to see i
+                //Hard dependency but only reather other way is to see if the title contains 404
                 if($('title').text == "Oops! 404"){
                     res.send({error: "No user found!"});
                     return;
