@@ -72,7 +72,7 @@ h1 {
 
 #main {
 	width: 960px;
-	height: 600px;
+	height: 200px;
 	margin:0px auto;
 }
 
@@ -156,4 +156,19 @@ g.node {
 
 g.node:hover {
 	cursor: pointer;
+}
+
+div#bottom{
+	text-align: center;
+	width: 350px;
+	margin: 0px auto;
+	img{
+		margin: 0px auto;
+	    width: 100px;
+	    height: 100px;
+	}
+	div#links{
+		width: 200;
+		margin: 10px auto;
+	}
 }
