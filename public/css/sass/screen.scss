@@ -46,8 +46,11 @@ h1 {
 }
 
 #search {
-	width:340px;
+	width:330px;
 	margin-top: 5px;
+	margin-right:5px;
+	margin-left:0 !important;
+	padding-left:30px !important;
 	border-radius: 20px;
 }
 
@@ -61,6 +64,10 @@ h1 {
 	width:60px;
 	height:40px;
 	@include border-radius(1000px);
+}
+
+#globe:hover {
+	cursor: pointer;
 }
 
 #main {
@@ -147,3 +154,6 @@ g.node {
 	z-index:5;
 }
 
+g.node:hover {
+	cursor: pointer;
+}
