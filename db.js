@@ -8,12 +8,12 @@ var getUser = function(user, fun) {
             console.log("We are connected!");
             
             db.collection('users').findOne({_id:user},function(err, result) {
-			if (err)
-				return console.dir(err);
-            else{
-            	fun(result);
-            }
-          });
+		if (err)
+		    return console.dir(err);
+		else{
+            	    fun(result);
+		}
+            });
         }
         else {
             console.log("Error, not connected: " + err);
@@ -144,14 +144,14 @@ var refreshGraph = function(user, res) {
 		case 2: 
                     db.collection('users').findOne({_id: out.children[0].name}, function(err, out0) {
 		        db.collection('users').findOne({_id: out.children[1].name}, function(err, out1) {
-			        var f = [];
+			    var f = [];
 			    
-				f.push({name: out0._id, score: out0.score});
-				f.push({name: out1._id, score: out1.score});
+			    f.push({name: out0._id, score: out0.score});
+			    f.push({name: out1._id, score: out1.score});
 
-				dat.children = f;
+			    dat.children = f;
 			    
-				res.send(JSON.stringify(dat));
+			    res.send(JSON.stringify(dat));
 			});
 		    });		
 
@@ -162,24 +162,19 @@ var refreshGraph = function(user, res) {
 		        db.collection('users').findOne({_id: out.children[1].name}, function(err, out1) {
 			    db.collection('users').findOne({_id: out.children[2].name}, function(err, out2) {
 			        var f = [];
-			    
+				
 				f.push({name: out0._id, score: out0.score});
 				f.push({name: out1._id, score: out1.score});
 				f.push({name: out2._id, score: out2.score});
 
 				dat.children = f;
-			    
+				
 				res.send(JSON.stringify(dat));
 			    });
 			});
 		    });		
 		    break;
 		}
-
-		
-
-
-
 
 	    });
 	}
@@ -190,21 +185,18 @@ var refreshGraph = function(user, res) {
 };
 
 
-
-
-
 var leaderboard = function(fun){
     Db.connect(process.env.MONGOLAB_URI || 'mongodb://localhost:27017/test', function(err, db) {
         if(!err) {
-			var options = {
-				"limit": 10
-			};
+	    var options = {
+		"limit": 10
+	    };
 
             console.log("We are connected!");
             db.collection('users').find({}, {_id:true, score:true}, options).toArray(function(err, users) {
                 if (err) return console.dir(err);
                 else{
-					fun(users.sort(function(a, b){return b.score-a.score;}));
+		    fun(users.sort(function(a, b){return b.score-a.score;}));
                 }
             });
         }
@@ -214,7 +206,87 @@ var leaderboard = function(fun){
     });
 };
 
+var globalDb = [];
 
+var getGlobal = function(u1, u2, fun) {
+    Db.connect(process.env.MONGOLAB_URI || 'mongodb://localhost:27017/test', function(err, db) {
+        if(!err) {
+            console.log("We are connected!");
+            db.collection('users').find({}).toArray(function(err, users) {
+                if (err) return console.dir(err);
+                else{
+		    console.log(JSON.stringify(users));
+		    globalDb = users;
+
+		    fun( findB(u1, u2) );
+                }
+            });
+        }
+        else {
+            console.log("Error, not connected: " + err);
+        }
+    });
+};
+
+var done = false;
+
+var findB = function (u1, u2) {
+
+    var cache = [];
+    var queue = [];
+    var next = u1;
+    var retrace = {};
+    
+    while (next) {
+	
+	console.log('searched ' + next);
+
+	if(cache.indexOf(next) == -1) {
+
+	    if(next == u2) {
+		console.log('done!');
+		console.log('retrace: '+JSON.stringify(retrace));
+
+		var path = [u2];
+
+		var t2 = u2;
+		while(t2 != u1) {
+		    t2 = retrace[t2];
+		    path.push(t2);
+		}
+
+		return path;
+	    }
+	    
+	    // search for user in db
+	    var u1Obj = null;
+	    for(var i=0; i<globalDb.length; i++) {
+		if(globalDb[i]._id == next) {
+		    u1Obj = globalDb[i];
+		    break;
+		}
+	    }
+	    
+	    if(u1Obj) {
+		for(var i=0; i<u1Obj.children.length; i++) {
+		    queue.push( u1Obj.children[i].name );
+		    retrace[ u1Obj.children[i].name ] = u1Obj._id;
+		}
+	    }
+	    
+	}
+	
+	cache.push(next);
+
+        next = queue.shift();
+    }
+
+    return [];
+
+};
+
+
+exports.getGlobal = getGlobal;
 exports.refreshGraph = refreshGraph;
 exports.leaderboard = leaderboard;
 exports.getNetwork = getNetwork;
