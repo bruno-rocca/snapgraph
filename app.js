@@ -45,7 +45,7 @@ app.post('/adduser', function(req, res) {
 app.get('/getuser', function(req, res) {
   var name = req.query.u;
   
-  if (typeof name === "undefined"){
+  if (typeof name === "undefined" || name === ""){
     res.send({"error":"No username given"});
   }
   else{
