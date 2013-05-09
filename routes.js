@@ -27,22 +27,19 @@ exports.getUser = function(name, res, fun){
                     try{
                         $('div.best_name a').each(function(a) {
                             names.push(a.text);
-                        });
-
-                        $('div.best_score').each(function(a) {
-                            scores.push(a.text);
+                            scores.push(5); //They removed scores from public URLs so scale everyone the same
                         });
 
                         for(var i = 0; i < names.length; i++){
-                            pairs.push({name: names[i], score: parseInt(scores[i])});
+                            pairs.push({name: names[i], score: scores[i]});
                         }
                     }
                     catch(error){
                         try{
                             //1 friend case, refactor (submit pull request to nodeio, this is pretty bad)
                             names.push($('div.best_name a').text);
-                            scores.push($('div.best_score').text);
-                            pairs.push({name: names[0], score: parseInt(scores[0])});
+                            scores.push(5);
+                            pairs.push({name: names[0], score: scores[0]});
                         }
                         catch(innerError){
                             //Really no friends
@@ -70,29 +67,7 @@ exports.getUser = function(name, res, fun){
         }
     });
 
-    if(fun){
-        nodeio.start(runner, {timeout: 100});
-    }
-    else{
-       db.getUser(name, function(user){
-           if(user){
-               console.log("Using db hit");
-
-               //Check time difference
-               if(hoursBetween(new Date(user.t), new Date()) > 20){
-                    console.log("Stale data, updating");
-                    nodeio.start(runner, {timeout: 100});
-               }else{
-                res.send(user);
-               }
-           }
-           else{
-               console.log("Using scrape hit");
-               nodeio.start(runner, {timeout: 100});
-           }
-       });
-}
-
+    nodeio.start(runner, {timeout: 100});
 };
 
 exports.refreshGraph = function(user, res, maxDepth, curDepth, seen){
