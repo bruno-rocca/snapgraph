@@ -8,13 +8,13 @@ $(document).ready(function() {
 	 });
 
 	$("#nishant").tooltip({
-	   'title': 'Nishant Shukla, <font color="#1f8f92">@binroo</font>',
+	   'title': 'Nishant Shukla, <font color="#1f8f92">@binroot</font>',
 	   'html': true,
 	   'placement': 'right'
 	 });
 
 	$("#jasdev").tooltip({
-	   'title': 'Jasdev Singh, <font color="#1f8f92">@justdavesingh</fonts>',
+	   'title': 'Jasdev Singh, <font color="#1f8f92">@jasdev</fonts>',
 	   'html': true,
 	   'placement': 'top'
 	 });
