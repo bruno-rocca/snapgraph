@@ -98,7 +98,7 @@ function myGraph(el) {
             .attr("height", 36)
             .attr("x", -18)
             .attr("y", -18)
-            .call(fetchTwitterImg);
+            //.call(fetchTwitterImg);
 
 
         node.exit().remove();

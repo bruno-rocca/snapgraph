@@ -7,7 +7,7 @@ exports.getUser = function(name, res, fun){
         run: function () {
             this.getHtml('http://www.snapchat.com/' + name, function(err, $) {
                 //Handle any request / parsing errors
-                if (err) this.exit(err);
+                if (err) {console.log(err); this.exit(err);}
 
                 //Hard dependency but only reather other way is to see if the title contains 404
                 if($('title').text == "Oops! 404"){
